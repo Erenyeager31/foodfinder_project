@@ -4,3 +4,6 @@ from django.shortcuts import render
 #hi
 #hey whatsup ??
 #Good morning
+
+def index(request):
+    return render(request,'index.html')
