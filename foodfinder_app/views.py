@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render,HttpResponse
 
 # Create your views here.
 #hi
@@ -21,4 +21,4 @@ def contactus(request):
     return render(request,'ContactUs.html')
 
 def signup_processing(request):
-    print("hi")
+    return HttpResponse("hi")

@@ -25,5 +25,6 @@ urlpatterns = [
     path('sign_in',include('foodfinder_app.urls')),
     path('aboutus',include('foodfinder_app.urls')),
     path('contactus',include('foodfinder_app.urls')),
+    path('signup',include('foodfinder_app.urls')),
 
 ]
