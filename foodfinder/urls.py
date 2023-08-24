@@ -20,5 +20,10 @@ from django.urls import path,include
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('',include('foodfinder_app.urls')),
+    path('home',include('foodfinder_app.urls')),
+    path('create_account',include('foodfinder_app.urls')),
+    path('sign_in',include('foodfinder_app.urls')),
+    path('aboutus',include('foodfinder_app.urls')),
+    path('contactus',include('foodfinder_app.urls')),
 
 ]
