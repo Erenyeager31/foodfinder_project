@@ -19,3 +19,6 @@ def aboutus(request):
 
 def contactus(request):
     return render(request,'ContactUs.html')
+
+def signup_processing(request):
+    print("hi")
