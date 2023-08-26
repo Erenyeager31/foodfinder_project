@@ -53,3 +53,33 @@ def signup_processing(request):
             return HttpResponse("Account created succesfully for"+" "+name+".\n"+"Please go to login page")
     else:
         return HttpResponse("Sorry ! could not process the data")
+    
+def login_processing(request):
+    if request.method == "POST":
+        username = request.POST.get("username")
+        password = request.POST.get("password")
+        role = request.POST.get("role")
+
+        if(role == "Customer" or role == "Job seeker"):
+            allusers = user_detail.objects.values()
+            for i in allusers:
+                if username == i.get("username"):
+                    if password == i.get("password"):
+                        return HttpResponse("Login Succesful")
+                    else:
+                        return HttpResponse("Invalid Credentials")
+                else:
+                    return HttpResponse("Invalid Credentials")
+        else:
+            allusers = seller_details.objects.values()
+            for i in allusers:
+                if username == i.get("username"):
+                    if password == i.get("password"):
+                        return HttpResponse("Login Succesful")
+                    else:
+                        return HttpResponse("Invalid Credentials")
+                else:
+                    return HttpResponse("Invalid Credentials")
+    else:
+        return HttpResponse("Some error has occured ! Please try again")
+    
