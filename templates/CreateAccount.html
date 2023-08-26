@@ -72,49 +72,49 @@
           type="text"
           id="name"
           placeholder="Enter Name"
-          required
+          
         />
         <input
           name="email"
           type="email"
           id="email"
           placeholder="Enter Email Id"
-          required
+          
         />
         <input
           name="phone"
           type="tel"
           id="phone"
           placeholder="Enter phone no."
-          required
+          
         />
         <input
           name="username"
           type="text"
           id="username"
           placeholder="Create Username"
-          required
+          
         />
         <input
           name="password"
           type="password"
           id="password"
           placeholder="Create Password"
-          required
+          
         />
         <input
           name="c_password"
           type="password"
           id="c_password"
           placeholder="Confirm Password"
-          required
+          
         />
         <input
           name="otp"
           type="tel"
           id="otp"
           placeholder="Enter otp"
-          required
+          
         />
         <div class="form-check form-switch">
           <input
@@ -219,20 +219,37 @@
         const otp = await document.getElementById('otp')
         const role = await document.getElementsByName('role')
         for (i = 0; i < role.length; i++)
-          if (role[i].checked == true) var user = role[i].value
+          if (role[i].checked == true){
+             var user = await role[i].value
+             ajaxcall(user)
+          }
 
-        if (password !== c_password) alert('Password do not match !')
-
+        if (password.value !== c_password.value){
+          alert('Password do not match !')
+          return
+        }
+        
+        function ajaxcall(user){
         $.ajax({
           type:"POST",
           url:"/signup",
           data:{
-            email:email.value
+            name:name.value,
+            email:email.value,
+            phone:phone.value,
+            username:username.value,
+            password:password.value,
+            user:user,
+            csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val()
           },
           success:(data)=>{
             alert(data)
+          },
+          error:(error) =>{
+            console.log("Error : ", error);
           }
         })
+      }
       })
   </script>
 </html>
