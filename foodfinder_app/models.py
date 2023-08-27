@@ -8,7 +8,13 @@ class seller_details(models.Model):
     username = models.CharField(max_length=10)
     password = models.CharField(max_length=12)
     role = models.CharField(max_length=15)
-    shop_name = models.CharField(max_length=20,default="")
+    business_name = models.CharField(max_length=20,default="")
+    bank_act_no = models.CharField(max_length=11,default="")
+    ifsc = models.CharField(max_length=17,default="")
+    branch_name = models.CharField(max_length=15,default="")
+    city = models.CharField(max_length=15,default="")
+    state = models.CharField(max_length=15,default="")
+    zip = models.CharField(max_length=6,default="")
     shop_add = models.CharField(max_length=100,default="")
     def __str__(self):
         return self.name

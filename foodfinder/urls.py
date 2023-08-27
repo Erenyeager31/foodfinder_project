@@ -27,5 +27,8 @@ urlpatterns = [
     path('contactus',include('foodfinder_app.urls')),
     path('signup_processing',include('foodfinder_app.urls')),
     path('login_processing',include('foodfinder_app.urls')),
-
+    path('profile',include('foodfinder_app.urls')),
+    path('logout',include('foodfinder_app.urls')),
+    path('fill_details_seller',include('foodfinder_app.urls')),
+    path('s_save_details',include('foodfinder_app.urls')),
 ]

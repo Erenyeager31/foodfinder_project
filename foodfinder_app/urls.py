@@ -11,5 +11,9 @@ urlpatterns = [
     path('contactus',views.contactus,name='contactus'),
     path('signup_processing',views.signup_processing,name='signup'),
     path('login_processing',views.login_processing,name='login_processing'),
+    path('profile',views.profile,name='view_profile'),
+    path('logout',views.logout,name='logout'),
+    path('fill_details_seller',views.s_fill_details,name='s_fill_details'),
+    path('s_save_details',views.s_save_details,name='s_save_details'),
 ]
 

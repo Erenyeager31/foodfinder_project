@@ -174,9 +174,36 @@
             data: {
               username: username.value,
               password: password.value,
-              role:user,
+              role: user,
               csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val()
             },
+            success(data) {
+              const login_status = JSON.parse(data)
+              if (login_status.success == true) {
+                sessionStorage.setItem('username', username.value)
+                sessionStorage.setItem('role', user)
+                alert(login_status.message)
+                setTimeout(() => {
+                  window.location.assign('/home')
+                }, 5000)
+              }
+              else{
+                alert(login_status.message)
+              }
+              // console.log(data)
+            },
+            error(err) {
+              console.log(err)
+            }
+          })
+        }
+
+        function logout() {
+          sessionStorage.removeItem('username')
+          $.ajax({
+            type: 'POST',
+            url: '/logout',
+            data: {},
             success(data) {
               alert(data)
             },
