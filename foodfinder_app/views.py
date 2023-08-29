@@ -167,6 +167,18 @@ def s_save_details(request):
         ifsc = request.POST.get("ifsc")
         branch_name = request.POST.get("branch_name")
 
-        myuser = seller_details(name=name,email=email,shop_add=shop_add,city=city,state=state,zip=zip,mobile_no=mobile_no,bank_act_no=bank_act_no,ifsc=ifsc,branch_name=branch_name)
-        myuser.save()
-        return HttpResponse("Saved ")
+        print(name+email+shop_add+city+state+zip+mobile_no+bank_act_no+ifsc+branch_name)
+        user = seller_details.objects.get(email=email)
+        # user(shop_add=shop_add,city=city,state=state,zip=zip,bank_act_no=bank_act_no,ifsc=ifsc,branch_name=branch_name)
+        user.shop_add = shop_add
+        user.city = city
+        user.state = state
+        user.zip = zip
+        user.bank_act_no = bank_act_no
+        user.ifsc = ifsc
+        user.branch_name = branch_name
+        user.save()
+        return HttpResponse("Saved")
+    
+def uploadfood(request):
+    return render(request,"upload_food.html")
