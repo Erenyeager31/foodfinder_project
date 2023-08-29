@@ -38,8 +38,8 @@ def signup_processing(request):
             allusers = user_detail.objects.values()
             for i in allusers:
             # print(i.get("email"))
-                if email == i.get("email"):
-                    return HttpResponse("Email-ID alredy exists")
+                if email == i.get("email") or username == i.get("username"):
+                    return HttpResponse("Email-ID or username is already taken !")
 
             myuser = user_detail(name=name,email=email,mobile_no=phone,username=username,password=password,role=role)
             myuser.save()
@@ -49,7 +49,7 @@ def signup_processing(request):
             allusers = seller_details.objects.values()
             for i in allusers:
                 # print(i.get("email"))
-                if email == i.get("email"):
+                if email == i.get("email") or username == i.get("username"):
                     return HttpResponse("Email-ID alredy exists")
 
             myuser = seller_details(name=name,email=email,mobile_no=phone,username=username,password=password,role=role)
@@ -182,3 +182,6 @@ def s_save_details(request):
     
 def uploadfood(request):
     return render(request,"upload_food.html")
+
+def food_upload_form(request):
+    return HttpResponse("hello from view")

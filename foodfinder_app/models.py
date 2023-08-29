@@ -28,3 +28,14 @@ class user_detail(models.Model):
     role = models.CharField(max_length=15)
     def __str__(self):
         return self.name
+    
+class food_detail(models.Model):
+    username = models.CharField(max_length=10)
+    food_name = models.CharField(max_length=25)
+    food_cat = models.CharField(max_length=15)
+    price = models.IntegerField()
+    description = models.CharField(max_length=50)
+    img_url = models.CharField(max_length=100)
+    def __str__(self):
+        return self.food_name
+
