@@ -133,17 +133,17 @@
           <label for="food_name" class="text-black fw-bold"
             >Name of the Food</label
           >
-          <input type="text" class="form-control" id="food_name" required/>
+          <input type="text" class="form-control" id="food_name"  />
         </div>
         <div class="col-md-6">
           <label for="food_cat" class="text-black fw-bold"
             >Category of Food</label
           >
-          <input type="text" class="form-control" id="food_cat" required/>
+          <input type="text" class="form-control" id="food_cat"  />
         </div>
         <div class="col-md-6">
           <label for="price" class="text-black fw-bold">Price</label>
-          <input type="text" class="form-control" id="price" required/>
+          <input type="text" class="form-control" id="price"  />
         </div>
         <div class="col-md-12">
           <label for="description" class="text-black fw-bold"
@@ -153,13 +153,12 @@
             class="form-control"
             placeholder=""
             id="description"
-          required></textarea>
+            
+          ></textarea>
         </div>
 
-        <div class="col-md-6">
           <label for="uploadimg" class="text-black fw-bold">Upload image</label>
           <input type="file" class="form-control" id="uploadimg" required />
-        </div>
 
         <button class="btn btn-primary" type="submit">Send</button>
       </form>
@@ -200,36 +199,95 @@
     </div>
   </body>
   <script>
-    document.getElementById("food_form").addEventListener('submit',function(event){
-      event.preventDefault()
-      const list = []
-      const input_element = document.getElementById("food_form")
-      for(i=0;i<input_element.length;i++){
-        // console.log(input_element[i])
-        list.push(input_element[i].value)
-      }
-      console.log(list)
+    document
+      .getElementById('food_form')
+      .addEventListener('submit', function (event) {
+        event.preventDefault()
+        const list = []
+        const imageInput = document.getElementById("uploadimg");
 
-      $.ajax({
-        type:"POST",
-        url:"food_upload_form",
-        data:{
-          "username":sessionStorage.getItem("username"),
-          "food_name":list[1],
-          "food_cat":list[2],
-          "price":list[3],
-          "description":list[4],
-          "img_url":list[5],
-          csrfmiddlewaretoken:list[0]
-        },
-        success(data){
-          alert(data)
-        },
-        error(e){
-
+        const input_element = document.getElementById('food_form')
+        for (i = 0; i < input_element.length; i++) {
+          // console.log(input_element[i])
+          list.push(input_element[i].value)
+        }
+        
+        if (imageInput.files.length > 0) {
+                // formData.append("image", imageInput.files[0]);
+              list[5] = imageInput.files[0]
+              // console.log(list[5])
+            }
+        // console.log(list)
+        check()
+        function upload(img_url) {
+          $.ajax({
+            type: 'POST',
+            url: 'food_upload_form',
+            data: {
+              attempt:2,
+              username: sessionStorage.getItem('username'),
+              food_name: list[1],
+              food_cat: list[2],
+              price: list[3],
+              description: list[4],
+              img_url: img_url,
+              csrfmiddlewaretoken: list[0]
+            },
+            success(data) {
+              const status = JSON.parse(data)
+              alert(status.message)
+            },
+            error(e) {
+              alert("Some error has occured")
+            }
+          })
         }
 
+        function check() {
+          $.ajax({
+            type: 'POST',
+            url: 'food_upload_form',
+            data: {
+              attempt:1,
+              username: sessionStorage.getItem('username'),
+              food_name: list[1],
+              food_cat: list[2],
+              // price: list[3],
+              // description: list[4],
+              // img_url: list[5],
+              csrfmiddlewaretoken: list[0]
+            },
+            async success(data){
+              const status = JSON.parse(data)
+              if(status.success === false){
+                alert(status.message)
+              }
+              else{
+                const data = new FormData()
+                data.append("file",list[5]) //appending the image
+                data.append("upload_preset","quickshop")  //appending preset name
+                data.append("cloud_name","dqvp6ghno") //appending cloud name
+
+                const response2 = await fetch('https://api.cloudinary.com/v1_1/dqvp6ghno/image/upload',{
+                  method:"POST",
+                  body :data
+                }).catch((err)=>{
+                  console.log(err)
+                })
+
+                const json = await response2.json()
+                // console.log(json.url)
+                const img_url =await json.url 
+                // console.log(product_image_url)
+                upload(img_url)
+                // alert(status.message)
+              }
+            },
+            error(e) {
+              alert("Some error has occured")
+            }
+          })
+        }
       })
-    })
   </script>
 </html>

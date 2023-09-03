@@ -1,6 +1,6 @@
 import json
 from django.shortcuts import render,HttpResponse
-from foodfinder_app.models import seller_details,user_detail
+from foodfinder_app.models import seller_details,user_detail,food_detail
 # Create your views here.
 #hi
 #hey whatsup ??
@@ -10,7 +10,8 @@ auth_seller = False
 username = "null"
 
 def index(request):
-    return render(request,'index.html')
+    food_list = food_detail.objects.values()
+    return render(request,'index.html',{'food_list':food_list})
 
 def create_act(request):
     return render(request,'CreateAccount.html')
@@ -184,4 +185,39 @@ def uploadfood(request):
     return render(request,"upload_food.html")
 
 def food_upload_form(request):
-    return HttpResponse("hello from view")
+    if request.method == "POST":
+        dictionary = dict(request.POST.items())
+    # print(dictionary)
+    food_details = food_detail.objects.filter(username=dictionary['username'],food_name=dictionary['food_name'],food_cat=dictionary['food_cat']).values()
+    print(dictionary['attempt'])
+    if dictionary['attempt'] == '1':
+        # print("inside attempt")
+        if food_details.count() == 1:
+            data = {
+                "success":False,
+                "message":"The food is already added"
+            }   
+        else:
+            data = {
+                "success":True,
+                "message":"X"
+            }
+        return HttpResponse(json.dumps(data))
+    else:
+        if dictionary['attempt'] == '2':
+            new_f_details = food_detail(
+                username=dictionary['username'],
+                food_name=dictionary['food_name'],
+                food_cat=dictionary['food_cat'],
+                price=dictionary['price'],
+                description=dictionary['description'],
+                img_url=dictionary['img_url'],
+                )
+            new_f_details.save()
+            data = {
+                    "success":True,
+                    "message":"Food Detail saved Successfully"
+                }
+            return HttpResponse(json.dumps(data))
+    
+    return HttpResponse("Testing..")
