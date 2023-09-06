@@ -31,4 +31,6 @@ urlpatterns = [
     path('logout',include('foodfinder_app.urls')),
     path('fill_details_seller',include('foodfinder_app.urls')),
     path('s_save_details',include('foodfinder_app.urls')),
+    path('uploadfood',include('foodfinder_app.urls')),
+    path('food_upload_form',include('foodfinder_app.urls')),
 ]

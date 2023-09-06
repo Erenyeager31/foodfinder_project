@@ -152,11 +152,12 @@
     <div class="container">
 
       <div class="row row-cols-1 row-cols-sm-2 row-cols-md-4 g-3">
+        {% for i in food_list %}
         <div class="col">
           <div class="card shadow-sm">
-            <img style="width: 100%; height: 250px; object-fit: cover;" src="https://www.archanaskitchen.com/images/archanaskitchen/0-Archanas-Kitchen-Recipes/2019/Cheesy_Vada_Pav_Recipe_Britannia_Cheesy_Kitchen_Recipe_Video_20.jpg" class="card-img-top" alt="vadapav">
+            <img style="width: 100%; height: 250px; object-fit: cover;" src={{i.img_url}} class="card-img-top" alt="vadapav">
             <div class="card-body">
-              <p class="card-text">Vada Pav</p>
+              <p class="card-text">{{i.food_name}}</p>
               <div class="d-flex justify-content-between align-items-center">
                 <div class="btn-group">
                   <button type="button" class="btn btn-sm btn-outline-secondary">Buy</button>
@@ -167,10 +168,11 @@
             </div>
           </div>
         </div>
-
+        {% endfor %}
+        {% comment %} 
         <div class="col">
           <div class="card shadow-sm">
-            <img style="width: 100%; height: 250px; object-fit: cover;" src="https://www.awesomecuisine.com/wp-content/uploads/2009/06/Plain-Dosa.jpg" class="card-img-top" alt="dosa">
+            <img style="width: 100%; height: 250px; object-fit: cover;" class="card-img-top" alt="dosa">
             <div class="card-body">
               <p class="card-text">Dosa</p>
               <div class="d-flex justify-content-between align-items-center">
@@ -245,7 +247,7 @@
               </div>
             </div>
           </div>
-        </div>
+        </div> {% endcomment %}
       </div>
     </div>
   </div>

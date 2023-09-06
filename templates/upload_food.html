@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Upload Food Details</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9"
+      crossorigin="anonymous"
+    />
+    <script src="https://ajax.aspnetCDN.com/ajax/jQuery/jQuery-3.3.1.min.js"></script>
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"
+      integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.min.js"
+      integrity="sha384-Rx+T1VzGupg4BHQYs2gCW9It+akI2MM/mndMCy36UVfodzcJcF0GGLxZIzObiEfa"
+      crossorigin="anonymous"
+    ></script>
+  </head>
+
+  <body style="background-image: url('fries.jpg')">
+    <nav class="navbar navbar-dark bg-dark fixed-top opacity-75">
+      <div class="container-fluid">
+        <a class="navbar-brand opacity-100" href="#">FoodFinder</a>
+        <ul class="nav justify-content-center">
+          <li class="nav-item">
+            <a class="nav-link active" aria-current="page" href="#">Home</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#">About Us</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#">Contact Us</a>
+          </li>
+        </ul>
+
+        <button
+          class="navbar-toggler"
+          type="button"
+          data-bs-toggle="offcanvas"
+          data-bs-target="#offcanvasDarkNavbar"
+          aria-controls="offcanvasDarkNavbar"
+          aria-label="Toggle navigation"
+        >
+          <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div
+          class="offcanvas offcanvas-end text-bg-dark"
+          tabindex="-1"
+          id="offcanvasDarkNavbar"
+          aria-labelledby="offcanvasDarkNavbarLabel"
+        >
+          <div class="offcanvas-header">
+            <h5 class="offcanvas-title" id="offcanvasDarkNavbarLabel">
+              FoodFinder
+            </h5>
+            <button
+              type="button"
+              class="btn-close btn-close-white"
+              data-bs-dismiss="offcanvas"
+              aria-label="Close"
+            ></button>
+          </div>
+          <div class="offcanvas-body">
+            <form class="d-flex mt-3" role="search">
+              <input
+                class="form-control me-2"
+                type="search"
+                placeholder="Search"
+                aria-label="Search"
+              />
+              <button class="btn btn-success" type="submit">Search</button>
+            </form>
+            <br />
+            <ul class="navbar-nav justify-content-end flex-grow-1 pe-3">
+              <li class="nav-item">
+                <a class="nav-link active" aria-current="page" href="#">Home</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="#">Profile</a>
+              </li>
+
+              <li class="nav-item">
+                <a class="nav-link" href="#">Fill and Edit Details</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="#">Upload Food Details</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="#">Check Orders</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="#">Tansaction History</a>
+              </li>
+
+              <li class="nav-item">
+                <a class="nav-link" href="#">About Us</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="#">Contact Us</a>
+              </li>
+            </ul>
+            <br />
+            <button class="btn btn-light rounded-pill px-3" type="button">
+              Logout
+            </button>
+            <!-- <button type="button" class="btn btn-dark border border-primary ">Logout</button> -->
+          </div>
+        </div>
+      </div>
+    </nav>
+
+    <div class="container opacity-75">
+      <br /><br /><br />
+      <h2 class="d-flex justify-content-center text-black">
+        Upload Food Details
+      </h2>
+
+      <form id="food_form" class="row g-3 col-md-6 mx-auto">
+        {% csrf_token %}
+        <div class="col-md-6">
+          <label for="food_name" class="text-black fw-bold"
+            >Name of the Food</label
+          >
+          <input type="text" class="form-control" id="food_name"  />
+        </div>
+        <div class="col-md-6">
+          <label for="food_cat" class="text-black fw-bold"
+            >Category of Food</label
+          >
+          <input type="text" class="form-control" id="food_cat"  />
+        </div>
+        <div class="col-md-6">
+          <label for="price" class="text-black fw-bold">Price</label>
+          <input type="text" class="form-control" id="price"  />
+        </div>
+        <div class="col-md-12">
+          <label for="description" class="text-black fw-bold"
+            >Description</label
+          >
+          <textarea
+            class="form-control"
+            placeholder=""
+            id="description"
+            
+          ></textarea>
+        </div>
+
+          <label for="uploadimg" class="text-black fw-bold">Upload image</label>
+          <input type="file" class="form-control" id="uploadimg" required />
+
+        <button class="btn btn-primary" type="submit">Send</button>
+      </form>
+    </div>
+
+    <!-- footer -->
+    <div class="container">
+      <footer class="py-3">
+        <ul class="nav justify-content-center border-bottom pb-3 mb-3">
+          <li class="nav-item">
+            <a href="#" class="nav-link px-2 text-body-secondary">Home</a>
+          </li>
+          <li class="nav-item">
+            <a href="#" class="nav-link px-2 text-body-secondary">Features</a>
+          </li>
+          <li class="nav-item">
+            <a href="#" class="nav-link px-2 text-body-secondary">Pricing</a>
+          </li>
+          <li class="nav-item">
+            <a href="#" class="nav-link px-2 text-body-secondary">FAQs</a>
+          </li>
+          <li class="nav-item">
+            <a href="#" class="nav-link px-2 text-body-secondary">About</a>
+          </li>
+        </ul>
+        <div class="social-icons d-flex justify-content-center">
+          <!-- Replace the links below with actual URLs to your social media profiles -->
+          <a href="#"><img src="facebook.svg" alt="Facebook" /></a>
+          <a href="#"><img src="twitter.svg" alt="Twitter" /></a>
+          <a href="#"><img src="linkedin.svg" alt="LinkedIn" /></a>
+          <a href="#"><img src="instagram.svg" alt="Instagram" /></a>
+        </div>
+        <br />
+        <p class="text-center text-body-secondary">
+          &copy; 2023 FoodFinder, Inc
+        </p>
+      </footer>
+    </div>
+  </body>
+  <script>
+    document
+      .getElementById('food_form')
+      .addEventListener('submit', function (event) {
+        event.preventDefault()
+        const list = []
+        const imageInput = document.getElementById("uploadimg");
+
+        const input_element = document.getElementById('food_form')
+        for (i = 0; i < input_element.length; i++) {
+          // console.log(input_element[i])
+          list.push(input_element[i].value)
+        }
+        
+        if (imageInput.files.length > 0) {
+                // formData.append("image", imageInput.files[0]);
+              list[5] = imageInput.files[0]
+              // console.log(list[5])
+            }
+        // console.log(list)
+        check()
+        function upload(img_url) {
+          $.ajax({
+            type: 'POST',
+            url: 'food_upload_form',
+            data: {
+              attempt:2,
+              username: sessionStorage.getItem('username'),
+              food_name: list[1],
+              food_cat: list[2],
+              price: list[3],
+              description: list[4],
+              img_url: img_url,
+              csrfmiddlewaretoken: list[0]
+            },
+            success(data) {
+              const status = JSON.parse(data)
+              alert(status.message)
+            },
+            error(e) {
+              alert("Some error has occured")
+            }
+          })
+        }
+
+        function check() {
+          $.ajax({
+            type: 'POST',
+            url: 'food_upload_form',
+            data: {
+              attempt:1,
+              username: sessionStorage.getItem('username'),
+              food_name: list[1],
+              food_cat: list[2],
+              // price: list[3],
+              // description: list[4],
+              // img_url: list[5],
+              csrfmiddlewaretoken: list[0]
+            },
+            async success(data){
+              const status = JSON.parse(data)
+              if(status.success === false){
+                alert(status.message)
+              }
+              else{
+                const data = new FormData()
+                data.append("file",list[5]) //appending the image
+                data.append("upload_preset","quickshop")  //appending preset name
+                data.append("cloud_name","dqvp6ghno") //appending cloud name
+
+                const response2 = await fetch('https://api.cloudinary.com/v1_1/dqvp6ghno/image/upload',{
+                  method:"POST",
+                  body :data
+                }).catch((err)=>{
+                  console.log(err)
+                })
+
+                const json = await response2.json()
+                // console.log(json.url)
+                const img_url =await json.url 
+                // console.log(product_image_url)
+                upload(img_url)
+                // alert(status.message)
+              }
+            },
+            error(e) {
+              alert("Some error has occured")
+            }
+          })
+        }
+      })
+  </script>
+</html>
