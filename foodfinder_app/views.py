@@ -283,4 +283,7 @@ def save_location(request):
     return HttpResponse(json.dumps(data))
 
 def showmaps(request):
-    return render(request,"show_maps.html")
+    data = {
+        "message":"Debugging in process"
+    }
+    return render(request,"show_maps.html",{'data':data})
