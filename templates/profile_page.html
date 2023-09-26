@@ -10,11 +10,12 @@
       integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9"
       crossorigin="anonymous"
     />
+    <script src="https://ajax.aspnetCDN.com/ajax/jQuery/jQuery-3.3.1.min.js"></script>
     <style></style>
   </head>
 
-  <body style="background-image: url('fries.jpg')">
-    <nav class="navbar navbar-dark bg-dark fixed-top opacity-75">
+  <body style="background-image: url('/static/fries.jpg')">
+    <nav class="navbar navbar-dark bg-dark fixed-top opacity-100">
       <div class="container-fluid">
         <a class="navbar-brand opacity-100" href="#">FoodFinder</a>
         <ul class="nav justify-content-center">
@@ -67,23 +68,34 @@
               />
               <button class="btn btn-success" type="submit">Search</button>
             </form>
+            {% csrf_token %}
             <br />
             <ul class="navbar-nav justify-content-end flex-grow-1 pe-3">
               <li class="nav-item">
-                <a class="nav-link active" aria-current="page" href="home">Home</a>
+                <a class="nav-link active" aria-current="page" href="home"
+                  >Home</a
+                >
               </li>
               <li class="nav-item">
                 <a class="nav-link" href="profile">Profile</a>
               </li>
 
               <li class="nav-item">
-                <a class="nav-link" href="fill_details_seller">Fill and Edit Details</a>
+                <a class="nav-link" href="fill_details_seller"
+                  >Fill and Edit Details</a
+                >
               </li>
               <li class="nav-item">
                 <a class="nav-link" href="uploadfood">Add Food</a>
               </li>
+              {% for i in data%} {% if i.role == 'Homemaker' %}
+              <!--*** Stall Owner needs to be changed to Homemaker-->
               <li class="nav-item">
-                <a class="nav-link" href="#">Check Orders</a>
+                <a class="nav-link" href="uploadrecipe">Upload Recipe</a>
+              </li>
+              {% endif %} {% endfor %}
+              <li class="nav-item">
+                <a class="nav-link" href="checkorder">Check Orders</a>
               </li>
               <li class="nav-item">
                 <a class="nav-link" href="#">Tansaction History</a>
@@ -97,7 +109,11 @@
               </li>
             </ul>
             <br />
-            <button class="btn btn-light rounded-pill px-3" type="button">
+            <button
+              class="btn btn-light rounded-pill px-3"
+              onclick="logout()"
+              type="button"
+            >
               Logout
             </button>
             <!-- <button type="button" class="btn btn-dark border border-primary ">Logout</button> -->
@@ -108,57 +124,61 @@
     <div class="container my-6">
       <br /><br /><br />
       <h2 class="d-flex justify-content-center text-black">Profile</h2>
-      <!-- {{data}} -->
+      <!--{{data}}-->
       {% for i in data %}
       <div class="container my-4">
         <div class="row g-3">
           <div class="col-md-6">
             <label for="name" class="form-label text-black">Name</label>
-            <h3>{{i.name}}</h3>
+            <h3>{{ i.name }}</h3>
           </div>
           <div class="col-md-6">
             <label for="email" class="form-label text-black">Email</label>
-            <h3> {{i.email}} </h3>
+            <h3>{{ i.email }}</h3>
           </div>
           <div class="col-md-6">
             <label for="phone" class="form-label text-black">Phone no</label>
-            <h3> {{i.mobile_no}} </h3>
+            <h3>{{ i.mobile_no }}</h3>
+          </div>
+          <div class="col-md-6">
+            <label for="business_name" class="form-label text-black">Business Name</label>
+            <h3>{{ i.business_name }}</h3>
           </div>
           <div class="col-12">
             <label for="address" class="form-label text-black">Address</label>
-            <h3>  {{i.shop_add}} </h3>
+            <h3>{{ i.shop_add }}</h3>
           </div>
 
           <div class="col-md-6">
             <label for="city" class="form-label text-black">City</label>
-            <h3> {{i.city}} </h3>
+            <h3>{{ i.city }}</h3>
           </div>
           <div class="col-md-4">
             <label for="state" class="form-label text-black">State</label>
-            <h3> {{i.state}} </h3>
+            <h3>{{ i.state }}</h3>
           </div>
           <div class="col-md-2">
             <label for="zip" class="form-label text-black">Zip</label>
-            <h3> {{i.zip}} </h3>
+            <h3>{{ i.zip }}</h3>
           </div>
 
           <div class="col-md-6">
             <label for="accno" class="form-label text-black"
               >Bank Account No</label
             >
-            <h3> {{i.bank_act_no}} </h3>
+            <h3>{{ i.bank_act_no }}</h3>
           </div>
 
           <div class="col-md-6">
             <label for="ifsc" class="form-label text-black">IFSC code</label>
-            <h3> {{i.ifsc}} </h3>
+            <h3>{{ i.ifsc }}</h3>
           </div>
 
           <div class="col-md-6">
             <label for="branchname" class="form-label text-black"
               >Branch name</label
             >
-            <h3> {{i.branch_name}} </h3>
+            <h3>{{ i.branch_name }}</h3>
           </div>
         </div>
         {% endfor %}
@@ -214,4 +234,25 @@
       crossorigin="anonymous"
     ></script>
   </body>
+  <script>
+    function logout() {
+      // alert("hi")
+      sessionStorage.removeItem('username')
+      $.ajax({
+        type: 'POST',
+        url: '/logout',
+        data: {
+          csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val()
+        },
+        success(data) {
+          alert(data)
+          window.location.assign('home')
+        },
+        error(err) {
+          // alert("failed")
+          console.log(err)
+        }
+      })
+    }
+  </script>
 </html>

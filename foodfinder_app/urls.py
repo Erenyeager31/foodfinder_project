@@ -17,5 +17,9 @@ urlpatterns = [
     path('s_save_details',views.s_save_details,name='s_save_details'),
     path('uploadfood',views.uploadfood,name='uploadfood'),
     path('food_upload_form',views.food_upload_form,name='food_upload_form'),
+    path('checkorder',views.check_orders,name='checkorder'),
+    path('AddtoCart',views.add_to_cart,name='AddtoCart'),
+    path('save_location',views.save_location,name='save_location'),
+    path('showmaps',views.showmaps,name='showmaps'),
 ]
 

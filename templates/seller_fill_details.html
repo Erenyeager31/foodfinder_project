@@ -29,7 +29,7 @@
     <!-- <style></style> -->
   </head>
 
-  <body style="background-image: url('fries.jpg')">
+  <body style="background-image: url('/static/fries.jpg')">
     <nav class="navbar navbar-dark bg-dark fixed-top opacity-75">
       <div class="container-fluid">
         <a class="navbar-brand opacity-100" href="#">FoodFinder</a>
@@ -85,29 +85,39 @@
             </form>
             <br />
             <ul class="navbar-nav justify-content-end flex-grow-1 pe-3">
-              <li class="nav-item">
-                <a class="nav-link active" aria-current="page" href="#">Home</a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="profile">Profile</a>
-              </li>
+              <a class="nav-link active" aria-current="page" href="home">Home</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="profile">Profile</a>
+            </li>
 
-              <li class="nav-item">
-                <a class="nav-link" href="#">Fill and Edit Details</a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="#">Check Orders</a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="#">Tansaction History</a>
-              </li>
+            <li class="nav-item">
+              <a class="nav-link" href="fill_details_seller">Fill and Edit Details</a>
+            </li>
 
+            {% for i in data%} {% if i.role == 'Homemaker' %}
+              <!--*** Stall Owner needs to be changed to Homemaker-->
               <li class="nav-item">
-                <a class="nav-link" href="#">About Us</a>
+                <a class="nav-link" href="uploadrecipe">Upload Recipe</a>
               </li>
-              <li class="nav-item">
-                <a class="nav-link" href="#">Contact Us</a>
-              </li>
+              {% endif %} {% endfor %}
+
+            <li class="nav-item">
+              <a class="nav-link" href="uploadfood">Add Food</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="checkorder">Check Orders</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#">Tansaction History</a>
+            </li>
+
+            <li class="nav-item">
+              <a class="nav-link" href="aboutus">About Us</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="contactus">Contact Us</a>
+            </li>
             </ul>
             <br />
             <button class="btn btn-light rounded-pill px-3" type="button">
@@ -121,7 +131,7 @@
 
     <div class="container my-6">
       <br /><br /><br />
-      <h2 class="d-flex justify-content-center text-black">Fill the Details</h2>
+      <h2 class="d-flex justify-content-center text-black">Update the Details</h2>
       <div class="container my-4">
         <form id="details_form" class="row g-3">
           {% csrf_token %}
@@ -149,7 +159,7 @@
               value="{{ i.email }}"
             />
           </div>
-          <div class="col-12">
+          <div class="col-10">
             <label for="address" class="form-label text-black">Address</label>
             <input
               type="text"
@@ -157,6 +167,16 @@
               id="address"
               placeholder="Enter Address"
               value="{{ i.shop_add }}"
+            />
+          </div>
+          <div class="col-10">
+            <label for="business_name" class="form-label text-black">Business Name</label>
+            <input
+              type="text"
+              class="form-control opacity-75"
+              id="business_name"
+              placeholder="Enter Business Name"
+              value="{{ i.business_name }}"
             />
           </div>
 
@@ -239,9 +259,12 @@
               value="{{ i.branch_name }}"
             />
           </div>
-          <div class="col-12">
+          <div class="col-12 d-flex justify-content-around">
             <button class="btn btn-primary rounded-pill px-3" type="submit">
               SAVE
+            </button>
+            <button class="btn btn-primary rounded-pill px-3" type="button" onclick="fetchlocation()">
+              Fetch location
             </button>
           </div>
           {% endfor %}
@@ -290,7 +313,7 @@
       const list = []
       const input_elements = document.getElementById("details_form")
       for(i=0;i<input_elements.length;i++){
-        console.log(input_elements[i])
+        // console.log(input_elements[i])
         list.push(input_elements[i].value)
       }
       // console.log(list)
@@ -301,13 +324,14 @@
           "name":list[1],
           "email":list[2],
           "shop_add":list[3],
-          "city":list[4],
-          "state":list[5],
-          "zip":list[6],
-          "mobile_no":list[7],
-          "bank_act_no":list[8],
-          "ifsc":list[9],
-          "branch_name":list[10],
+          "business_name":list[4],
+          "city":list[5],
+          "state":list[6],
+          "zip":list[7],
+          "mobile_no":list[8],
+          "bank_act_no":list[9],
+          "ifsc":list[10],
+          "branch_name":list[11],
           csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val()
         },
         success(data){
@@ -319,5 +343,38 @@
       })
 
     })
+
+    async function success(position){
+      // alert("Inside")
+      const coords = await position['coords']
+      const latitude = await coords.latitude
+      const longitude = await coords.longitude
+      // console.log(latitude+" "+longitude)
+      location_shop = await latitude+","+longitude
+      // alert(location_shop)
+      $.ajax({
+        type:"GET",
+        url:"/save_location",
+        data:{
+          "username":sessionStorage.getItem("username"),
+          "business_name":document.getElementById("business_name").value,
+          "location":location_shop
+        },
+        success(data){
+          status_data = JSON.parse(data)
+          alert(status_data.message)
+        },
+        error(e){
+          console.log(e)
+        }
+      })
+    }
+    function error(error){
+      alert("Error occured")
+    }
+    function fetchlocation(){
+      // alert("Fetching your current location...")
+      navigator.geolocation.getCurrentPosition(success,error)
+    }
   </script>
 </html>

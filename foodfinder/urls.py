@@ -33,4 +33,8 @@ urlpatterns = [
     path('s_save_details',include('foodfinder_app.urls')),
     path('uploadfood',include('foodfinder_app.urls')),
     path('food_upload_form',include('foodfinder_app.urls')),
+    path('checkorder',include('foodfinder_app.urls')),
+    path('AddtoCart',include('foodfinder_app.urls')),
+    path('save_location',include('foodfinder_app.urls')),
+    path('showmaps',include('foodfinder_app.urls')),
 ]

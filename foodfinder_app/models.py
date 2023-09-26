@@ -16,6 +16,7 @@ class seller_details(models.Model):
     state = models.CharField(max_length=15,default="")
     zip = models.CharField(max_length=6,default="")
     shop_add = models.CharField(max_length=100,default="")
+    location = models.CharField(max_length=30,default="")
     def __str__(self):
         return self.name
     
@@ -26,6 +27,10 @@ class user_detail(models.Model):
     username = models.CharField(max_length=10)
     password = models.CharField(max_length=12)
     role = models.CharField(max_length=15)
+    city = models.CharField(max_length=15,default='')
+    state = models.CharField(max_length=15,default='')
+    zip = models.CharField(max_length=15,default='')
+    address = models.CharField(max_length=100,default='')
     def __str__(self):
         return self.name
     
@@ -39,3 +44,15 @@ class food_detail(models.Model):
     def __str__(self):
         return self.food_name
 
+class cart(models.Model):
+    username = models.CharField(max_length=10)
+    food_id = models.IntegerField()
+    def __str__(self):
+        return self.username+" "+str(self.food_id)
+    
+class business_location(models.Model):
+    username = models.CharField(max_length=10)
+    business_name = models.CharField(max_length=20,default="")
+    location = models.CharField(max_length=30,default="")
+    def __str__(self):
+        return self.business_name

@@ -1,6 +1,6 @@
 import json
 from django.shortcuts import render,HttpResponse
-from foodfinder_app.models import seller_details,user_detail,food_detail
+from foodfinder_app.models import seller_details,user_detail,food_detail,cart,business_location
 # Create your views here.
 #hi
 #hey whatsup ??
@@ -11,6 +11,7 @@ username = "null"
 
 def index(request):
     food_list = food_detail.objects.values()
+    # print(food_list)
     return render(request,'index.html',{'food_list':food_list})
 
 def create_act(request):
@@ -51,7 +52,7 @@ def signup_processing(request):
             for i in allusers:
                 # print(i.get("email"))
                 if email == i.get("email") or username == i.get("username"):
-                    return HttpResponse("Email-ID alredy exists")
+                    return HttpResponse("Email-ID or username is already taken !")
 
             myuser = seller_details(name=name,email=email,mobile_no=phone,username=username,password=password,role=role)
             myuser.save()
@@ -97,29 +98,46 @@ def login_processing(request):
                             }
                     return HttpResponse(json.dumps(data))
         else:
+            print(request.POST)
             allusers = seller_details.objects.values()
-            for i in allusers:
-                if username == i.get("username"):
-                    if password == i.get("password"):
-                        auth_seller = True
-                        auth_customer = False
-                        data = {
-                            "success":True,
-                            "message":"Login Successfull",
-                            }
-                        return HttpResponse(json.dumps(data))
-                    else:
-                        data = {
-                            "success":False,
-                            "message":"Invalid Credentials",
-                            }
-                        return HttpResponse(json.dumps(data))
-                else:
-                    data = {
-                            "success":False,
-                            "message":"Invalid Credentials",
-                            }
-                    return HttpResponse(json.dumps(data))
+            seller = seller_details.objects.filter(username=username).values()
+            # print(seller[0].get("password"))
+            if seller[0].get("password") == password:
+                auth_seller = True
+                auth_customer = False
+                data = {
+                        "success":True,
+                        "message":"Login Successfull",
+                        }
+                return HttpResponse(json.dumps(data))
+            else:
+                data = {
+                    "success":False,
+                    "message":"Invalid Credentials",
+                    }
+                return HttpResponse(json.dumps(data))
+            # for i in allusers:
+            #     if username == i.get("username"):
+            #         if password == i.get("password"):
+            #             auth_seller = True
+            #             auth_customer = False
+            #             data = {
+            #                 "success":True,
+            #                 "message":"Login Successfull",
+            #                 }
+            #             return HttpResponse(json.dumps(data))
+            #         else:
+            #             data = {
+            #                 "success":False,
+            #                 "message":"Invalid Credentials",
+            #                 }
+            #             return HttpResponse(json.dumps(data))
+            #     else:
+            #         data = {
+            #                 "success":False,
+            #                 "message":"Invalid Credentials",
+            #                 }
+            #         return HttpResponse(json.dumps(data))
     else:
         return HttpResponse("Some error has occured ! Please try again")
     
@@ -127,17 +145,17 @@ def profile(request):
     global auth_customer
     global auth_seller
     global username
-
     # print(auth_seller)
     # print(auth_customer)
     # print(username)
-
     if(auth_seller == True):
         # print("hi")
         data = seller_details.objects.filter(username=username).values()
+        print(data)
         return render(request,"profile_page.html",{'data':data})
     elif(auth_customer == True):
-        return render(request,"AboutUs.html")
+        data = user_detail.objects.filter(username=username).values()
+        return render(request,"customer_profile.html",{'data':data})
     else:
         return render(request,"Login.html")
 
@@ -160,6 +178,7 @@ def s_save_details(request):
         name = request.POST.get("name")
         email = request.POST.get("email")
         shop_add = request.POST.get("shop_add")
+        business_name = request.POST.get("business_name")
         city = request.POST.get("city")
         state = request.POST.get("state")
         zip = request.POST.get("zip")
@@ -167,8 +186,9 @@ def s_save_details(request):
         bank_act_no = request.POST.get("bank_act_no")
         ifsc = request.POST.get("ifsc")
         branch_name = request.POST.get("branch_name")
+        location = request.POST.get("location")
 
-        print(name+email+shop_add+city+state+zip+mobile_no+bank_act_no+ifsc+branch_name)
+        print(name+email+shop_add+business_name+city+state+zip+mobile_no+bank_act_no+ifsc+branch_name)
         user = seller_details.objects.get(email=email)
         # user(shop_add=shop_add,city=city,state=state,zip=zip,bank_act_no=bank_act_no,ifsc=ifsc,branch_name=branch_name)
         user.shop_add = shop_add
@@ -178,6 +198,7 @@ def s_save_details(request):
         user.bank_act_no = bank_act_no
         user.ifsc = ifsc
         user.branch_name = branch_name
+        user.business_name = business_name    
         user.save()
         return HttpResponse("Saved")
     
@@ -221,3 +242,45 @@ def food_upload_form(request):
             return HttpResponse(json.dumps(data))
     
     return HttpResponse("Testing..")
+
+def check_orders(request):
+    return render(request,'SellerCheckOrders.html')
+
+def upload_recipe(request):
+    return render(request,'');
+
+def add_to_cart(request):
+    if request.method=='GET':
+        username = request.GET.get("username")
+        food_id = request.GET.get("id")
+    
+    existing_cart = cart.objects.filter(username = username,food_id=food_id).values()
+    # print(existing_cart)
+    if(existing_cart.count() == 0):
+        new_cart = cart(username=username,food_id=food_id)
+        new_cart.save()
+        return HttpResponse("Food item added to cart successfully")
+    else:
+        return HttpResponse("Already added to the cart")
+    
+def save_location(request):
+    if request.method == 'GET':
+        old_location = business_location.objects.filter(username=request.GET.get("username")).values()
+        if(old_location.count() == 1):
+            old_location.location = request.GET.get("location")
+            data = {
+                "message":"Location updated Succesfully"
+            }
+        else:
+            username = request.GET.get("username")
+            business_name = request.GET.get("business_name")
+            location = request.GET.get("location")
+            new_location = business_location(username=username,business_name=business_name,location=location)
+            new_location.save()
+            data = {
+                "message":"Location saved Succesfully"
+            }
+    return HttpResponse(json.dumps(data))
+
+def showmaps(request):
+    return render(request,"show_maps.html")
