@@ -1,0 +1,309 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Recipe</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
+    <style>
+        .nav-scroller {
+            position: relative;
+            z-index: 2;
+            height: 2.75rem;
+            overflow-y: hidden;
+        }
+
+        .nav-scroller .nav {
+            display: flex;
+            flex-wrap: nowrap;
+            padding-bottom: 1rem;
+            margin-top: -1px;
+            overflow-x: auto;
+            text-align: center;
+            white-space: nowrap;
+            -webkit-overflow-scrolling: touch;
+        }
+    </style>
+</head>
+
+<body style="background-image: url('static/magiiii.jpg');">
+    <nav class="navbar navbar-dark bg-dark fixed-top opacity-75">
+        <div class="container-fluid">
+            <a class="navbar-brand opacity-100" href="#">FoodFinder</a>
+            <ul class="nav justify-content-center">
+                <li class="nav-item">
+                    <a class="nav-link active " aria-current="page" href="#">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">About Us</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Contact Us</a>
+                </li>
+            </ul>
+
+            <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas"
+                data-bs-target="#offcanvasDarkNavbar" aria-controls="offcanvasDarkNavbar"
+                aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="offcanvas offcanvas-end text-bg-dark" tabindex="-1" id="offcanvasDarkNavbar"
+                aria-labelledby="offcanvasDarkNavbarLabel">
+                <div class="offcanvas-header">
+                    <h5 class="offcanvas-title" id="offcanvasDarkNavbarLabel">FoodFinder</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas"
+                        aria-label="Close"></button>
+                </div>
+                <div class="offcanvas-body">
+                    <form class="d-flex mt-3" role="search">
+                        <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+                        <button class="btn btn-success" type="submit">Search</button>
+                    </form>
+                    <br>
+                    <ul class="navbar-nav justify-content-end flex-grow-1 pe-3">
+                        <li class="nav-item">
+                            <a class="nav-link active" aria-current="page" href="#">Home</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">Profile</a>
+                        </li>
+
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">Fill and Edit Details</a>
+                        </li>
+
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">Tansaction History</a>
+                        </li>
+
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">Track Order</a>
+                        </li>
+
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">About Us</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">Contact Us</a>
+                        </li>
+
+                    </ul>
+                    <br>
+                    <button class="btn btn-light rounded-pill px-3" type="button">Logout</button>
+                    <!-- <button type="button" class="btn btn-dark border border-primary ">Logout</button> -->
+                </div>
+            </div>
+
+        </div>
+    </nav>
+    <br><br><br>
+    <div class="container my-4 text-light">
+        <div class="nav-scroller py-1 mb-3 border-bottom text-light">
+            <nav class="nav nav-underline justify-content-between text-light">
+                <a class="nav-item nav-link link-body-emphasis active text-light" href="#">Vadapav</a>
+                <a class="nav-item nav-link link-body-emphasis text-light" href="#">Tea & Coffee</a>
+                <a class="nav-item nav-link link-body-emphasis text-light" href="#">Chinese</a>
+                <a class="nav-item nav-link link-body-emphasis text-light" href="#">South Indian</a>
+                <a class="nav-item nav-link link-body-emphasis text-light" href="#">Gujrati Specials</a>
+                <a class="nav-item nav-link link-body-emphasis text-light" href="#">Rajasthani Specials</a>
+                <a class="nav-item nav-link link-body-emphasis text-light" href="#">Punjabi Specials</a>
+                <a class="nav-item nav-link link-body-emphasis text-light" href="#">Itlian</a>
+                <a class="nav-item nav-link link-body-emphasis text-light" href="#">Beverages</a>
+                <a class="nav-item nav-link link-body-emphasis text-light" href="#">Jelebi fafda</a>
+            </nav>
+        </div>
+
+        <div class="row mb-2">
+            <div class="col-md-6">
+                <div
+                    class="row g-0 border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative">
+                    <div class="col p-4 d-flex flex-column position-static">
+                        <strong class="d-inline-block mb-2 text-primary-emphasis">World</strong>
+                        <h3 class="mb-0">Featured post</h3>
+                        <div class="mb-1 text-body-secondary">Nov 12</div>
+                        <p class="card-text mb-auto">This is a wider card with supporting text below as a natural
+                            lead-in to additional content.</p>
+                        <a href="#" class="icon-link gap-1 icon-link-hover stretched-link">
+                            Continue reading
+                            <svg class="bi">
+                                <use xlink:href="#chevron-right" />
+                            </svg>
+                        </a>
+                    </div>
+                    <div class="col-auto d-none d-lg-block">
+                        <svg class="bd-placeholder-img" width="200" height="250" xmlns="http://www.w3.org/2000/svg"
+                            role="img" aria-label="Placeholder: Thumbnail" preserveAspectRatio="xMidYMid slice"
+                            focusable="false">
+                            <title>Placeholder</title>
+                            <rect width="100%" height="100%" fill="#55595c" /><text x="50%" y="50%" fill="#eceeef"
+                                dy=".3em">image</text>
+                        </svg>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div
+                    class="row g-0 border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative">
+                    <div class="col p-4 d-flex flex-column position-static">
+                        <strong class="d-inline-block mb-2 text-success-emphasis">Design</strong>
+                        <h3 class="mb-0">Post title</h3>
+                        <div class="mb-1 text-body-secondary">Nov 11</div>
+                        <p class="mb-auto">This is a wider card with supporting text below as a natural lead-in to
+                            additional content.</p>
+                        <a href="#" class="icon-link gap-1 icon-link-hover stretched-link">
+                            Continue reading
+                            <svg class="bi">
+                                <use xlink:href="#chevron-right" />
+                            </svg>
+                        </a>
+                    </div>
+                    <div class="col-auto d-none d-lg-block">
+                        <svg class="bd-placeholder-img" width="200" height="250" xmlns="http://www.w3.org/2000/svg"
+                            role="img" aria-label="Placeholder: Thumbnail" preserveAspectRatio="xMidYMid slice"
+                            focusable="false">
+                            <title>Placeholder</title>
+                            <rect width="100%" height="100%" fill="#55595c" /><text x="50%" y="50%" fill="#eceeef"
+                                dy=".3em">image</text>
+                        </svg>
+                    </div>
+                </div>
+            </div>
+
+
+
+            <div class="row">
+                <div class="col-md-8 ">
+                    <h2 class="display-5 link-body-emphasis mb-1">Recipe</h2>
+                    <p>Ingredients for Jalebi:
+<br><br>
+                        For the Batter:
+                        <br>
+                        1 cup all-purpose flour (maida) <br>
+                        2 tablespoons besan (gram flour)<br>
+                        1/2 teaspoon baking soda<br>
+                        A pinch of orange food color (optional)<br>
+                        1 cup water <br>
+                        1/2 cup yogurt<br> 
+                        1 teaspoon ghee (clarified butter) <br><br>
+                        For the Sugar Syrup:<br>
+                        
+                        1 1/2 cups sugar<br>
+                        1 cup water<br>
+                        1/2 teaspoon cardamom powder <br>
+                        A few saffron strands (optional)<br>
+                        A few drops of lemon juice<br>
+                        <br>
+                        For Frying:<br>
+                        
+                        Vegetable oil or ghee
+                </p> 
+                </div>
+
+                <div class="col-md-4 text-dark">
+                    <div class="position-sticky" style="top: 2rem;">
+                        <div class="p-4 mb-3 bg-body-tertiary rounded">
+                            <h4 class="fst-italic">About</h4>
+                            <p class="mb-0">"Embark on a Gastronomic Journey with Our Delectable Recipes! From
+                                mouthwatering entrees to irresistible desserts, our culinary creations will awaken your
+                                taste buds and inspire your inner chef. Join us in savoring the joy of cooking and
+                                sharing delicious meals with loved ones. Explore, Cook, and Delight!"</p>
+                        </div>
+
+                        <div>
+                            <h4 class="fst-italic text-light">Recent posts</h4>
+                            <ul class="list-unstyled text-light">
+                                <li>
+                                    <a class="d-flex flex-column flex-lg-row gap-3 align-items-start align-items-lg-center py-3 link-body-emphasis text-decoration-none border-top"
+                                        href="#">
+                                        <svg class="bd-placeholder-img" width="100%" height="96"
+                                            xmlns="http://www.w3.org/2000/svg" aria-hidden="true"
+                                            preserveAspectRatio="xMidYMid slice" focusable="false">
+                                            <rect width="100%" height="100%" fill="#777" />
+                                        </svg>
+                                        <div class="col-lg-8 text-light">
+                                            <h6 class="mb-0">Example blog post title</h6>
+                                            <div class="text-light">January 15, 2023</div>
+                                            
+                                        </div>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a class="d-flex flex-column flex-lg-row gap-3 align-items-start align-items-lg-center py-3 link-body-emphasis text-decoration-none border-top"
+                                        href="#">
+                                        <svg class="bd-placeholder-img" width="100%" height="96"
+                                            xmlns="http://www.w3.org/2000/svg" aria-hidden="true"
+                                            preserveAspectRatio="xMidYMid slice" focusable="false">
+                                            <rect width="100%" height="100%" fill="#777" />
+                                        </svg>
+                                        <div class="col-lg-8 text-light">
+                                            <h6 class="mb-0">This is another blog post title</h6>
+                                            <div class="text-light">January 15, 2023</div>
+                                        </div>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a class="d-flex flex-column flex-lg-row gap-3 align-items-start align-items-lg-center py-3 link-body-emphasis text-decoration-none border-top"
+                                        href="#">
+                                        <svg class="bd-placeholder-img" width="100%" height="96"
+                                            xmlns="http://www.w3.org/2000/svg" aria-hidden="true"
+                                            preserveAspectRatio="xMidYMid slice" focusable="false">
+                                            <rect width="100%" height="100%" fill="#777" />
+                                        </svg>
+                                        <div class="col-lg-8 text-light">
+                                            <h6 class="mb-0">Longer blog post title: This one has multiple lines!</h6>
+                                            <div class="text-light">January 15, 2023</div>
+                                        </div>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+
+                </div>
+
+
+
+
+            </div>
+
+
+
+
+            <!-- footer -->
+            <div class="container">
+
+                <footer class="py-3 ">
+                    <ul class="nav justify-content-center border-bottom pb-3 mb-3">
+                        <li class="nav-item"><a href="#" class="nav-link px-2 text-body-secondary">Home</a></li>
+                        <li class="nav-item"><a href="#" class="nav-link px-2 text-body-secondary">Features</a></li>
+                        <li class="nav-item"><a href="#" class="nav-link px-2 text-body-secondary">Pricing</a></li>
+                        <li class="nav-item"><a href="#" class="nav-link px-2 text-body-secondary">FAQs</a></li>
+                        <li class="nav-item"><a href="#" class="nav-link px-2 text-body-secondary">About</a></li>
+                    </ul>
+                    <div class="social-icons d-flex justify-content-center">
+                        <!-- Replace the links below with actual URLs to your social media profiles -->
+                        <a href="#"><img src="facebook.svg" alt="Facebook"></a>
+                        <a href="#"><img src="twitter.svg" alt="Twitter"></a>
+                        <a href="#"><img src="linkedin.svg" alt="LinkedIn"></a>
+                        <a href="#"><img src="instagram.svg" alt="Instagram"></a>
+                    </div>
+                    <br>
+                    <p class="text-center text-body-secondary">&copy; 2023 FoodFinder, Inc</p>
+
+                </footer>
+            </div>
+            <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"
+                integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm"
+                crossorigin="anonymous"></script>
+            <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"
+                integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r"
+                crossorigin="anonymous"></script>
+            <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.min.js"
+                integrity="sha384-Rx+T1VzGupg4BHQYs2gCW9It+akI2MM/mndMCy36UVfodzcJcF0GGLxZIzObiEfa"
+                crossorigin="anonymous"></script>
+</body>
+
+</html>
