@@ -41,6 +41,9 @@
           <li class="nav-item">
             <a class="nav-link" href="showmaps">Maps</a>
           </li>
+          <li class="nav-item">
+            <a class="nav-link" onclick="showcart()">Cart</a>
+          </li>
         </ul>
 
         <button
@@ -367,6 +370,15 @@
             console.log(e)
           }
         })
+      }
+    }
+
+    function showcart(){
+      if(sessionStorage.getItem("role") == 'Customer'){
+        window.location.assign("showcart")
+      }
+      else{
+        alert("Please Login to view the Cart")
       }
     }
   </script>

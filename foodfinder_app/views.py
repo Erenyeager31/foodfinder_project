@@ -72,31 +72,23 @@ def login_processing(request):
         role = request.POST.get("role")
 
         if(role == "Customer" or role == "Job seeker"):
-            allusers = user_detail.objects.values()
-            for i in allusers:
-                if username == i.get("username"):
-                    # print(i.get("password"))
-                    if password == i.get("password"):
-                        auth_customer = True
-                        auth_seller = False
-                        username = i.get("username")
-                        data = {
-                            "success":True,
-                            "message":"Login Successfull",
-                            }
-                        return HttpResponse(json.dumps(data))
-                    else:
-                        data = {
-                            "success":False,
-                            "message":"Invalid Credentials",
-                            }
-                        return HttpResponse(json.dumps(data))
-                else:
-                    data = {
-                            "success":False,
-                            "message":"Invalid Credentials",
-                            }
-                    return HttpResponse(json.dumps(data))
+            allusers = seller_details.objects.values()
+            user = user_detail.objects.filter(username=username).values()
+            # print(user[0].get("password"))
+            if user[0].get("password") == password:
+                auth_seller = False
+                auth_customer = True
+                data = {
+                        "success":True,
+                        "message":"Login Successfull",
+                        }
+                return HttpResponse(json.dumps(data))
+            else:
+                data = {
+                    "success":False,
+                    "message":"Invalid Credentials",
+                    }
+                return HttpResponse(json.dumps(data))
         else:
             print(request.POST)
             allusers = seller_details.objects.values()
@@ -116,28 +108,6 @@ def login_processing(request):
                     "message":"Invalid Credentials",
                     }
                 return HttpResponse(json.dumps(data))
-            # for i in allusers:
-            #     if username == i.get("username"):
-            #         if password == i.get("password"):
-            #             auth_seller = True
-            #             auth_customer = False
-            #             data = {
-            #                 "success":True,
-            #                 "message":"Login Successfull",
-            #                 }
-            #             return HttpResponse(json.dumps(data))
-            #         else:
-            #             data = {
-            #                 "success":False,
-            #                 "message":"Invalid Credentials",
-            #                 }
-            #             return HttpResponse(json.dumps(data))
-            #     else:
-            #         data = {
-            #                 "success":False,
-            #                 "message":"Invalid Credentials",
-            #                 }
-            #         return HttpResponse(json.dumps(data))
     else:
         return HttpResponse("Some error has occured ! Please try again")
     
@@ -145,9 +115,9 @@ def profile(request):
     global auth_customer
     global auth_seller
     global username
-    # print(auth_seller)
-    # print(auth_customer)
-    # print(username)
+    print(auth_seller)
+    print(auth_customer)
+    print(username)
     if(auth_seller == True):
         # print("hi")
         data = seller_details.objects.filter(username=username).values()
@@ -287,3 +257,77 @@ def showmaps(request):
         "message":"Debugging in process"
     }
     return render(request,"show_maps.html",{'data':data})
+
+def showcart(request):
+    global username
+    cart_values = cart.objects.filter(username=username).values()
+    # print(cart_values)
+    food_id = []
+    for i in cart_values:
+        food_id.append(i.get("food_id"))
+    food_list = food_detail.objects.filter(id__in = food_id).values()
+    print(food_list)
+    food_count = food_list.count()
+    total_price = 0
+    for i in food_list:
+        total_price = total_price + i.get("price")
+    
+    # print(price_list)
+    # total_price = sum(price_list)
+    return render(request,"cartt.html",{'cart_values':{'food_list':food_list,'count':food_count,'price':total_price}})
+
+def delete_cart(request):
+    if request.method == "GET":
+        id = request.GET.get("id")
+    print(id)
+    cart_list = cart.objects.filter(food_id=id)
+
+    # remove the comment afterwards
+    cart_list.delete()
+    global username
+    cart_values = cart.objects.filter(username=username).values()
+    # print(cart_values)
+    food_id = []
+    for i in cart_values:
+        food_id.append(i.get("food_id"))
+    food_list = food_detail.objects.filter(id__in = food_id).values()
+    # print(food_list)
+    food_count = food_list.count()
+    total_price = 0
+    for i in food_list:
+        total_price = total_price + i.get("price")
+    return HttpResponse(json.dumps({
+            'cart_values':{
+                'food_list':list(food_list),
+                'count':food_count,
+                'price':total_price
+                }
+            ,
+            "status":"Data removed Successfully"
+        }
+    ))
+
+def checkout(request):
+    return render(request,"checkout.html")
+
+def fetch_location(request):
+    b_location = business_location.objects.values()
+    location = []
+    business_name = []
+    print(b_location)
+    for i in b_location:
+        loc = i.get("location")
+        array = loc.split(',')
+        #!Obtaining the string, performing split and appending into the list
+        location.append({'lat':float(array[0]),'lng':float(array[1])})
+        business_name.append(i.get("business_name"))
+    
+    # print(location)
+    # json_loc = json.dumps(location)
+    # json_name = json.dumps(business_name)
+    response_data = {
+        'locations':location,
+        'name':business_name
+    }
+    json_resp = json.dumps(response_data)
+    return HttpResponse(json_resp, content_type='application/json')

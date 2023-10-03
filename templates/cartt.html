@@ -7,16 +7,17 @@
     <title>Cart</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
+        <script src="https://ajax.aspnetCDN.com/ajax/jQuery/jQuery-3.3.1.min.js"></script>
 </head>
  
-<body class="" style="background-image: url('/static/lllll.jpg');">
+<body class="fixed-background" style="background-image: url('/static/lllll.jpg');">
 
     <nav class="navbar navbar-dark bg-dark fixed-top opacity-75">
         <div class="container-fluid">
           <a class="navbar-brand opacity-100" href="#">FoodFinder</a>
           <ul class="nav justify-content-center">
             <li class="nav-item">
-              <a class="nav-link active " aria-current="page" href="#">Home</a>
+              <a class="nav-link active " aria-current="page" href="/">Home</a>
             </li>
             <li class="nav-item">
               <a class="nav-link" href="#">About Us</a>
@@ -82,266 +83,110 @@
       </nav>
       <br><br><br>
 
-    <h2 class="d-flex justify-content-center text-black">Cart</h2>
-    <div class="container">
-        <div class="row">
-            <div class="col-sm-8">
-                <h4 class="mb-3 text-black">Billing address</h4>
-                <form class="needs-validation" novalidate>
-                    <div class="row g-3">
-                        <div class="col-sm-6">
-                            <label for="firstName" class="form-label">First name</label>
-                            <input type="text" class="form-control" id="firstName" placeholder="" value="" required>
-                            <div class="invalid-feedback">
-                                Valid first name is required.
-                            </div>
-                        </div>
+      <center>
+      <h1>CART</h1>
+    </center>
 
-                        <div class="col-sm-6">
-                            <label for="lastName" class="form-label">Last name</label>
-                            <input type="text" class="form-control" id="lastName" placeholder="" value="" required>
-                            <div class="invalid-feedback">
-                                Valid last name is required.
-                            </div>
-                        </div>
-
-                        <div class="col-12">
-                            <label for="username" class="form-label">Username</label>
-                            <div class="input-group has-validation">
-                                <span class="input-group-text">@</span>
-                                <input type="text" class="form-control" id="username" placeholder="Username" required>
-                                <div class="invalid-feedback">
-                                    Your username is required.
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="col-12">
-                            <label for="email" class="form-label">Email <span
-                                    class="text-body-secondary">(Optional)</span></label>
-                            <input type="email" class="form-control" id="email" placeholder="you@example.com">
-                            <div class="invalid-feedback">
-                                Please enter a valid email address for shipping updates.
-                            </div>
-                        </div>
-
-                        <div class="col-12">
-                            <label for="address" class="form-label">Address</label>
-                            <input type="text" class="form-control" id="address" placeholder="1234 Main St" required>
-                            <div class="invalid-feedback">
-                                Please enter your shipping address.
-                            </div>
-                        </div>
-
-                        <div class="col-12">
-                            <label for="address2" class="form-label">Address 2 <span
-                                    class="text-body-secondary">(Optional)</span></label>
-                            <input type="text" class="form-control" id="address2" placeholder="Apartment or suite">
-                        </div>
-
-                        <div class="col-md-5">
-                            <label for="country" class="form-label">Country</label>
-                            <select class="form-select" id="country" required>
-                                <option value="">Choose...</option>
-                                <option>India</option>
-                            </select>
-                            <div class="invalid-feedback">
-                                Please select a valid country.
-                            </div>
-                        </div>
-
-                        <div class="col-md-4">
-                            <label for="state" class="form-label">State</label>
-                            <select class="form-select" id="state" required>
-                                <option value="">Choose...</option>
-                                <option>Mumbai</option>
-                            </select>
-                            <div class="invalid-feedback">
-                                Please provide a valid state.
-                            </div>
-                        </div>
-
-                        <div class="col-md-3">
-                            <label for="zip" class="form-label">Zip</label>
-                            <input type="text" class="form-control" id="zip" placeholder="" required>
-                            <div class="invalid-feedback">
-                                Zip code required.
-                            </div>
-                        </div>
+      <div class="album py-5">
+        <div class="container">
+          <div class="row row-cols-1 row-cols-sm-2 row-cols-md-4 g-3">
+            {% for i in cart_values.food_list %}
+            <div class="col">
+              <div class="card shadow-sm">
+                <img
+                  style="width: 100%; height: 250px; object-fit: cover"
+                  src="{{ i.img_url }}"
+                  class="card-img-top"
+                  alt="vadapav"
+                />
+                <div class="card-body">
+                  <p class="card-text">{{ i.food_name }}</p>
+                  <div class="d-flex justify-content-between align-items-center">
+                    <div class="btn-group">
+                        <button onclick="delete_cart('{{i.id}}')" class="btn-outline-danger" type="button">
+                            DELETE
+                        </button>
                     </div>
-
-                    <hr class="my-4">
-
-                    <div class="form-check">
-                        <input type="checkbox" class="form-check-input" id="same-address">
-                        <label class="form-check-label" for="same-address">Shipping address is the same as my billing
-                            address</label>
-                    </div>
-
-                    <div class="form-check">
-                        <input type="checkbox" class="form-check-input" id="save-info">
-                        <label class="form-check-label" for="save-info">Save this information for next time</label>
-                    </div>
-
-
-            </div>
-
-            <div class="col-sm-4">
-
-                <h4 class="d-flex justify-content-between align-items-center mb-3">
-                    <span class="text-primary">Your cart</span>
-                    <span class="badge bg-primary rounded-pill">3</span>
-                </h4>
-                <ul class="list-group mb-3">
-                    <li class="list-group-item d-flex justify-content-between lh-sm">
-                        <div>
-                            <h6 class="my-0">Product name</h6>
-                            <small class="text-body-secondary">Brief description</small>
-                        </div>
-                        <span class="text-body-secondary">12</span>
-                    </li>
-                    <li class="list-group-item d-flex justify-content-between lh-sm">
-                        <div>
-                            <h6 class="my-0">Second product</h6>
-                            <small class="text-body-secondary">Brief description</small>
-                        </div>
-                        <span class="text-body-secondary">8</span>
-                    </li>
-                    <li class="list-group-item d-flex justify-content-between lh-sm">
-                        <div>
-                            <h6 class="my-0">Third item</h6>
-                            <small class="text-body-secondary">Brief description</small>
-                        </div>
-                        <span class="text-body-secondary">5</span>
-                    </li>
-
-                    <li class="list-group-item d-flex justify-content-between">
-                        <span>Total </span>
-                        <strong>20</strong>
-                    </li>
-                </ul>
-
-                <div class="container">
-                    <ul class="nav nav-tabs" id="myTab" role="tablist">
-                        <li class="nav-item" role="presentation">
-                            <button class="nav-link active" id="upi-tab" data-bs-toggle="tab"
-                                data-bs-target="#upi-tab-pane" type="button" role="tab" aria-controls="upi-tab-pane"
-                                aria-selected="true">UPI</button>
-                        </li>
-                        <li class="nav-item" role="presentation">
-                            <button class="nav-link" id="creditcard-tab" data-bs-toggle="tab"
-                                data-bs-target="#creditcard-tab-pane" type="button" role="tab"
-                                aria-controls="creditcard-tab-pane" aria-selected="false">Credit Card</button>
-                        </li>
-                        <li class="nav-item" role="presentation">
-                            <button class="nav-link" id="debitcard-tab" data-bs-toggle="tab"
-                                data-bs-target="#debitcard-tab-pane" type="button" role="tab"
-                                aria-controls="debitcard-tab-pane" aria-selected="false">Debit Card</button>
-                        </li>
-
-                    </ul>
-                    <div class="tab-content" id="myTabContent">
-
-                        <!-- upi -->
-                        <div class="tab-pane fade show active" id="upi-tab-pane" role="tabpanel"
-                            aria-labelledby="upi-tab" tabindex="0">
-                            <br>
-                            <div class="d-grid gap-2">
-                                <button class="btn btn-primary" type="button">proceed to payment</button>
-                            </div>
-                        </div>
-
-                            <!-- Credit -->
-                        <div class="tab-pane fade" id="creditcard-tab-pane" role="tabpanel"
-                            aria-labelledby="creditcard-tab" tabindex="0">
-                            <div>
-                                <label for="Name on card" class="form-label">Name on card</label>
-                                <input type="text" class="form-control" id="Name on card">
-                            </div>
-                            <div>
-                                <label for="Credit card number" class="form-label">Credit card number</label>
-                                <input type="text" class="form-control" id="Credit card number">
-                            </div>
-
-                            <div class="col-md-12">
-                                <label for="Expiration" class="form-label">Expiration</label>
-                                <input type="date" class="form-control" id="Expiration">
-                            </div>
-                            <div class="col-md-12">
-                                <label for="CVV" class="form-label">CVV</label>
-                                <input type="password" class="form-control" id="CVV">
-                            </div>
-                            <br>
-                            <div class="d-grid gap-2">
-                                <button class="btn btn-primary" type="button">proceed to payment</button>
-                            </div>
-
-                        </div>
-                        <!-- debit -->
-                        <div class="tab-pane fade" id="debitcard-tab-pane" role="tabpanel"
-                            aria-labelledby="debitcard-tab" tabindex="0">
-                            <div>
-                                <label for="Name on card" class="form-label">Name on card</label>
-                                <input type="text" class="form-control" id="Name on card">
-                            </div>
-                            <div>
-                                <label for="Credit card number" class="form-label">Credit card number</label>
-                                <input type="text" class="form-control" id="Credit card number">
-                            </div>
-
-                            <div class="col-md-12">
-                                <label for="Expiration" class="form-label">Expiration</label>
-                                <input type="date" class="form-control" id="Expiration">
-                            </div>
-                            <div class="col-md-12">
-                                <label for="CVV" class="form-label">CVV</label>
-                                <input type="password" class="form-control" id="CVV">
-                            </div>
-                            <br>
-                            <div class="d-grid gap-2">
-                                <button class="btn btn-primary" type="button">proceed to payment</button>
-                            </div>
-                        </div>
-
-                    </div>
+                  </div>
                 </div>
+              </div>
             </div>
+            {% endfor %}
+          </div>
         </div>
+      </div>
 
-
-
-        <div class="container ">
-
-            <footer class="py-3 ">
-                <ul class="nav justify-content-center border-bottom pb-3 mb-3">
-                    <li class="nav-item"><a href="#" class="nav-link px-2 text-body-secondary">Home</a></li>
-                    <li class="nav-item"><a href="#" class="nav-link px-2 text-body-secondary">Features</a></li>
-                    <li class="nav-item"><a href="#" class="nav-link px-2 text-body-secondary">Pricing</a></li>
-                    <li class="nav-item"><a href="#" class="nav-link px-2 text-body-secondary">FAQs</a></li>
-                    <li class="nav-item"><a href="#" class="nav-link px-2 text-body-secondary">About</a></li>
-                </ul>
-                <div class="social-icons d-flex justify-content-center">
-                    <!-- Replace the links below with actual URLs to your social media profiles -->
-                    <a href="#"><img src="facebook.svg" alt="Facebook"></a>
-                    <a href="#"><img src="twitter.svg" alt="Twitter"></a>
-                    <a href="#"><img src="linkedin.svg" alt="LinkedIn"></a>
-                    <a href="#"><img src="instagram.svg" alt="Instagram"></a>
-                </div>
-                <br>
-                <p class="text-center text-body-secondary">&copy; 2023 FoodFinder, Inc</p>
-
-            </footer>
+      <div class="card text-bg-light p-3 mx-5 my-2">
+        <div class="card-header">Summary</div>
+        <div class="card-body d-flex justify-content-md-evenly">
+          <p class="card-text">
+            <div>Total Food Items :{{cart_values.price}}  </div>
+            <div>Total Price : {{cart_values.count}}  </div>
+          </p>
+          <button type="button" onclick="checkout()" class="btn btn-success">CHECKOUT</button>
         </div>
+      </div>
 
-
-
-
-
-
-    </div>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm"
         crossorigin="anonymous"></script>
 </body>
+<script>
+  function delete_cart(id){
+    // alert(id)
+    $.ajax({
+      type:"GET",
+      url:"/delete_cart",
+      data:{
+        "id":id
+      },
+      success(data){
+        const response = JSON.parse(data)
+        alert(response['status'])
+        update_cart(response['cart_values'])
+      },
+    })
+  }
 
+  function update_cart(cart_values){
+    //! This line completely empties the container holding all the card of food
+    $('.row-cols-1.row-cols-sm-2.row-cols-md-4.g-3').empty();
+
+    // Iterate through the updated cart items and append them to the cart container
+    $.each(cart_values.food_list, function(index, item) {
+        var newItem = '<div class="col"> ' +
+                      '   <div class="card shadow-sm"> ' +
+                      '       <img style="width: 100%; height: 250px; object-fit: cover" src="' + item.img_url + '" class="card-img-top" alt="' + item.food_name + '"> ' +
+                      '       <div class="card-body"> ' +
+                      '           <p class="card-text">' + item.food_name + '</p> ' +
+                      '           <div class="d-flex justify-content-between align-items-center"> ' +
+                      '               <div class="btn-group"> ' +
+                      '                   <button onclick="delete_cart(' + item.id + ')" class="btn-outline-danger" type="button">DELETE</button> ' +
+                      '               </div> ' +
+                      '           </div> ' +
+                      '       </div> ' +
+                      '   </div> ' +
+                      '</div>';
+
+        $('.row-cols-1.row-cols-sm-2.row-cols-md-4.g-3').append(newItem);
+    });
+
+    // Update the summary
+    $('.card.text-bg-light.p-3.mx-5.my-2 .card-body').html(
+        '<p class="card-text"> ' +
+        '   <div>Total Food Items: ' + cart_values.price + '</div> ' +
+        '   <div>Total Price: ' + cart_values.count + '</div> ' +
+        '</p>' +
+        '<button type="button" onclick="checkout()" class="btn btn-success">CHECKOUT</button>'
+    );  
+  }
+
+  function checkout(){
+    const resp = confirm("Are you sure you want to checkout ?")
+    if(resp){
+      // alert("hi")
+      window.location.assign("/checkout")
+    }
+  }
+</script>
 </html>

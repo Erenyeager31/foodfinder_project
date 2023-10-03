@@ -6,8 +6,8 @@
     <title>Home</title>
     <script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script>
 
-    <link rel="stylesheet" type="text/css" href="./style.css" />
-    <script type="module" src="./index.js"></script>
+    <!-- <link rel="stylesheet" type="text/css" href="./style.css" /> -->
+    <!-- <script type="module" src="./index.js"></script> -->
     <link
       href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
       rel="stylesheet"
@@ -30,12 +30,24 @@
       integrity="sha384-fbbOQedDUMZZ5KreZpsbe1LCZPVmfTnH7ois6mU1QK+m14rQ1l2bGBq41eYeM/fS"
       crossorigin="anonymous"
     ></script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCt47m0SqIKRIfHOReFJOY5okxGecIwMSc&libraries=geometry,places"></script>
+    <script src="https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/markerclusterer.js"></script>
+
   </head>
 
   <style>
     body {
       background-image: url('https://assets.gqindia.com/photos/625e4dacfcfaab5b0ecc5ee0/16:9/w_1280,c_limit/vada-pav%20(1).jpg');
       opacity: 0.8;
+    }
+
+    #map{
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%,-50%);
+      width: 90%;
+      aspect-ratio: 2/1;
     }
   </style>
 
@@ -132,79 +144,87 @@
     </nav>
 
     <div id="map"></div>
-
   </body>
-  <script>(g=>{var h,a,k,p="The Google Maps JavaScript API",c="google",l="importLibrary",q="__ib__",m=document,b=window;b=b[c]||(b[c]={});var d=b.maps||(b.maps={}),r=new Set,e=new URLSearchParams,u=()=>h||(h=new Promise(async(f,n)=>{await (a=m.createElement("script"));e.set("libraries",[...r]+"");for(k in g)e.set(k.replace(/[A-Z]/g,t=>"_"+t[0].toLowerCase()),g[k]);e.set("callback",c+".maps."+q);a.src=`https://maps.${c}apis.com/maps/api/js?`+e;d[q]=f;a.onerror=()=>h=n(Error(p+" could not load."));a.nonce=m.querySelector("script[nonce]")?.nonce||"";m.head.append(a)}));d[l]?console.warn(p+" only loads once. Ignoring:",g):d[l]=(f,...n)=>r.add(f)&&u().then(()=>d[l](f,...n))})
-    ({key: "AIzaSyB41DRUbKWJHPxaFjMAwdrzWzbVKartNGg", v: "weekly"});</script>
   <script>
-    async function initMap() {
-  // Request needed libraries.
-  const { Map, InfoWindow } = await google.maps.importLibrary("maps");
-  const { AdvancedMarkerElement, PinElement } = await google.maps.importLibrary(
-    "marker",
-  );
-  const map = new google.maps.Map(document.getElementById("map"), {
-    zoom: 3,
-    center: { lat: -28.024, lng: 140.887 },
-    mapId: "DEMO_MAP_ID",
-  });
-  const infoWindow = new google.maps.InfoWindow({
-    content: "",
-    disableAutoPan: true,
-  });
-  // Create an array of alphabetical characters used to label the markers.
-  const labels = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-  // Add some markers to the map.
-  const markers = locations.map((position, i) => {
-    const label = labels[i % labels.length];
-    const pinGlyph = new google.maps.marker.PinElement({
-      glyph: label,
-      glyphColor: "white",
-    });
-    const marker = new google.maps.marker.AdvancedMarkerElement({
-      position,
-      content: pinGlyph.element,
-    });
+    
+    async function fetch_call(){
+      $.ajax({
+        type:"GET",
+        url:"/fetch_location",
+        data:{},
+        success(data){
+          console.log(data)
+          initMap(data.locations,data.name)
+        }
+      })
+    }
 
-    // markers can only be keyboard focusable when they have click listeners
-    // open info window when marker is clicked
-    marker.addListener("click", () => {
-      infoWindow.setContent(position.lat + ", " + position.lng);
-      infoWindow.open(map, marker);
-    });
-    return marker;
-  });
+    async function initMap(locations,marker_label) {
+      const map =await new google.maps.Map(document.getElementById('map'), {
+        zoom: 6,
+        center: { lat: 19.07283, lng: 72.88261 }
+      })
 
-  // Add a marker clusterer to manage the markers.
-  new MarkerClusterer({ markers, map });
-}
+      const infoWindow = new google.maps.InfoWindow({
+        content: '',
+        disableAutoPan: true
+      })
 
-const locations = [
-  { lat: -31.56391, lng: 147.154312 },
-  { lat: -33.718234, lng: 150.363181 },
-  { lat: -33.727111, lng: 150.371124 },
-  { lat: -33.848588, lng: 151.209834 },
-  { lat: -33.851702, lng: 151.216968 },
-  { lat: -34.671264, lng: 150.863657 },
-  { lat: -35.304724, lng: 148.662905 },
-  { lat: -36.817685, lng: 175.699196 },
-  { lat: -36.828611, lng: 175.790222 },
-  { lat: -37.75, lng: 145.116667 },
-  { lat: -37.759859, lng: 145.128708 },
-  { lat: -37.765015, lng: 145.133858 },
-  { lat: -37.770104, lng: 145.143299 },
-  { lat: -37.7737, lng: 145.145187 },
-  { lat: -37.774785, lng: 145.137978 },
-  { lat: -37.819616, lng: 144.968119 },
-  { lat: -38.330766, lng: 144.695692 },
-  { lat: -39.927193, lng: 175.053218 },
-  { lat: -41.330162, lng: 174.865694 },
-  { lat: -42.734358, lng: 147.439506 },
-  { lat: -42.734358, lng: 147.501315 },
-  { lat: -42.735258, lng: 147.438 },
-  { lat: -43.999792, lng: 170.463352 },
-];
+      // locations = data
+    //   console.log(data)
+    //   const locations = [
+    //   { lat: -31.56391, lng: 147.154312 },
+    //   { lat: -33.718234, lng: 150.363181 },
+    //   { lat: -33.727111, lng: 150.371124 },
+    //   { lat: -33.848588, lng: 151.209834 },
+    //   { lat: -33.851702, lng: 151.216968 },
+    //   { lat: -34.671264, lng: 150.863657 },
+    //   { lat: -35.304724, lng: 148.662905 },
+    //   { lat: -36.817685, lng: 175.699196 },
+    //   { lat: -36.828611, lng: 175.790222 },
+    //   { lat: -37.75, lng: 145.116667 },
+    //   { lat: -37.759859, lng: 145.128708 },
+    //   { lat: -37.765015, lng: 145.133858 },
+    //   { lat: -37.770104, lng: 145.143299 },
+    //   { lat: -37.7737, lng: 145.145187 },
+    //   { lat: -37.774785, lng: 145.137978 },
+    //   { lat: -37.819616, lng: 144.968119 },
+    //   { lat: -38.330766, lng: 144.695692 },
+    //   { lat: -39.927193, lng: 175.053218 },
+    //   { lat: -41.330162, lng: 174.865694 },
+    //   { lat: -42.734358, lng: 147.439506 },
+    //   { lat: -42.734358, lng: 147.501315 },
+    //   { lat: -42.735258, lng: 147.438 },
+    //   { lat: -43.999792, lng: 170.463352 },
+    // ]
+    // console.log(locations)
 
-initMap();
+      // Add some markers to the map.
+      const markers =await locations.map((position, i) => {
+        // const label = String.fromCharCode(65 + (i % 26)) // A, B, C, ...
+        const label = marker_label[i]
+        const marker = new google.maps.Marker({
+          position,
+          label,
+          map
+        })
+
+        // Open info window when marker is clicked
+        marker.addListener('click', () => {
+          infoWindow.setContent(position.lat + ', ' + position.lng)
+          infoWindow.open(map, marker)
+        })
+
+        return marker
+      })
+
+      // Add a marker clusterer to manage the markers.
+      new MarkerClusterer(map, markers, {
+        imagePath:
+          'https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/m'
+      })
+    }
+
+    window.addEventListener('load', fetch_call);
   </script>
 </html>
