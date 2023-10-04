@@ -206,6 +206,7 @@
           </div>
           {% endfor %}
         </div>
+
       </div>
     </div>
   </body>
@@ -242,16 +243,24 @@
         $('.container').empty();
 
         $.each(data, function(index, item) {
-        console.log(item)
-        var newItem = '<div class="row" > ' +
-                        '<div class="col-md-12">' +
-                           '<div class="media-body">'+
-                            'Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin commodo. Cras purus odio, vestibulum in vulputate at, tempus viverra turpis.'+
-                           '</div>'+
+        console.log(index)
+        var newItem = '<div class="container mt-5">'+
+                        '<div class="card">'+
+                          '<div class="card-body">'+
+                            '<ul class="list-group">'+
+                               '<li class="list-group-item">'+
+                                  '<strong>Business Name:</strong>' + item.business_name+ '<br>'+
+                                  '<strong>City:</strong> Mumbai <br>'+
+                                  '<strong>State:</strong> Maharashtra <br>'+
+                                  '<strong>ZIP Code:</strong> 401209 <br>'+
+                                  '<strong>Shop Address:</strong> 405, Prabhat Society, Nallasopara (East) <br>'+
+                                '</li>'+
+                            '</ul>'+
+                          '</div>'+
                         '</div>'+
-                      '</div>';
+                      '</div>'
 
-        $('.container').append(newItem);
+      $('.container').append(newItem);
     });
                   
       }
