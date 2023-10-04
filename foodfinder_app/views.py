@@ -234,14 +234,16 @@ def add_to_cart(request):
         return HttpResponse("Already added to the cart")
     
 def save_location(request):
+    # old_location = business_location.objects.filter(username=request.GET.get("username")).values()
     if request.method == 'GET':
-        old_location = business_location.objects.filter(username=request.GET.get("username")).values()
-        if(old_location.count() == 1):
+        try:
+            old_location = business_location.objects.get(username=request.GET.get("username"))
             old_location.location = request.GET.get("location")
+            old_location.save()
             data = {
                 "message":"Location updated Succesfully"
             }
-        else:
+        except:
             username = request.GET.get("username")
             business_name = request.GET.get("business_name")
             location = request.GET.get("location")
@@ -250,6 +252,10 @@ def save_location(request):
             data = {
                 "message":"Location saved Succesfully"
             }
+        # print(shop.location)
+        shop = seller_details.objects.get(username=request.GET.get("username"))
+        shop.location = request.GET.get("location")
+        shop.save()
     return HttpResponse(json.dumps(data))
 
 def showmaps(request):
@@ -331,3 +337,14 @@ def fetch_location(request):
     }
     json_resp = json.dumps(response_data)
     return HttpResponse(json_resp, content_type='application/json')
+
+def search_filter(request):
+    food_list = food_detail.objects.values()
+    return render(request,'search_filter.html',{'food_list':food_list})
+
+def listShop(request):
+    sellers = seller_details.objects.values()
+    print(sellers)
+    seller_list = list(sellers)
+    json_shop = json.dumps(seller_list)
+    return HttpResponse(json_shop,content_type='application/json')

@@ -25,5 +25,7 @@ urlpatterns = [
     path('delete_cart',views.delete_cart,name='delete_cart'),
     path('checkout',views.checkout,name='checkout'),
     path('fetch_location',views.fetch_location,name='fetch_location'),
+    path('search_filter',views.search_filter,name='search_filter'),
+    path('listShop',views.listShop,name='listShop'),
 ]
 

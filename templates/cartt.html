@@ -120,8 +120,8 @@
         <div class="card-header">Summary</div>
         <div class="card-body d-flex justify-content-md-evenly">
           <p class="card-text">
-            <div>Total Food Items :{{cart_values.price}}  </div>
-            <div>Total Price : {{cart_values.count}}  </div>
+            <div>Total Food Items :{{cart_values.count}}  </div>
+            <div>Total Price : {{cart_values.price}}  </div>
           </p>
           <button type="button" onclick="checkout()" class="btn btn-success">CHECKOUT</button>
         </div>
@@ -174,8 +174,8 @@
     // Update the summary
     $('.card.text-bg-light.p-3.mx-5.my-2 .card-body').html(
         '<p class="card-text"> ' +
-        '   <div>Total Food Items: ' + cart_values.price + '</div> ' +
-        '   <div>Total Price: ' + cart_values.count + '</div> ' +
+        '   <div>Total Food Items: ' + cart_values.count + '</div> ' +
+        '   <div>Total Price: ' + cart_values.price + '</div> ' +
         '</p>' +
         '<button type="button" onclick="checkout()" class="btn btn-success">CHECKOUT</button>'
     );  

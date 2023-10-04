@@ -41,4 +41,6 @@ urlpatterns = [
     path('delete_cart',include('foodfinder_app.urls')),
     path('checkout',include('foodfinder_app.urls')),
     path('fetch_location',include('foodfinder_app.urls')),
+    path('search_filter',include('foodfinder_app.urls')),
+    path('listShop',include('foodfinder_app.urls')),
 ]
