@@ -104,6 +104,21 @@
               <li class="nav-item">
                 <a class="nav-link" href="profile">Profile</a>
               </li>
+              <li class="nav-item">
+                <a class="nav-link" href="profile">Profile</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="showmaps">Maps</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="search_filter">Search</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" onclick="showcart()">Cart</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" onclick="review_page()">Review Food</a>
+              </li>
             </ul>
             <br />
             <a
@@ -234,19 +249,19 @@
                   <div class="btn-group">
                     <button
                       type="button"
-                      class="btn btn-sm btn-outline-secondary"
+                      class="btn btn-warning"
                     >
                       Buy
                     </button>
                     <button
                       type="button"
-                      class="btn btn-sm btn-outline-secondary"
+                      class="btn btn-success"
                       onclick="addCart('{{i.id}}');"
                     >
                       Add to cart
                     </button>
                   </div>
-                  <small class="text-body-secondary">9 minutes</small>
+                  <!-- <small class="text-body-secondary">9 minutes</small> -->
                 </div>
               </div>
             </div>
@@ -358,6 +373,7 @@
     }
 
     function addCart(id){
+      // alert(id)
       if(sessionStorage.getItem('role') == 'Customer'){
         $.ajax({
           type:"GET",
@@ -379,6 +395,15 @@
     function showcart(){
       if(sessionStorage.getItem("role") == 'Customer'){
         window.location.assign("showcart")
+      }
+      else{
+        alert("Please Login to view the Cart")
+      }
+    }
+
+    function review_page(){
+      if(sessionStorage.getItem("role") == 'Customer'){
+        window.location.assign("review_page")
       }
       else{
         alert("Please Login to view the Cart")

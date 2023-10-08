@@ -27,5 +27,8 @@ urlpatterns = [
     path('fetch_location',views.fetch_location,name='fetch_location'),
     path('search_filter',views.search_filter,name='search_filter'),
     path('listShop',views.listShop,name='listShop'),
+    path('review_page',views.review_page,name='review_page'),
+    path('submit_review',views.submit_review,name='submit_review'),
+    path('shop_review',views.shop_review,name='shop_review'),
 ]
 

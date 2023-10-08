@@ -56,3 +56,19 @@ class business_location(models.Model):
     location = models.CharField(max_length=30,default="")
     def __str__(self):
         return self.business_name
+
+class review(models.Model):
+    food_id = models.IntegerField()
+    rating = models.CharField(max_length=10)
+    review = models.CharField(max_length=100)
+    username = models.CharField(max_length=10)
+    def __str__(self):
+        return self.username+" "+str(self.food_id)
+    
+class shop_review(models.Model):
+    business_name = models.CharField(max_length=30)
+    rating = models.CharField(max_length=10)
+    review = models.CharField(max_length=100)
+    username = models.CharField(max_length=10)
+    def __str__(self):
+        return self.username+" "+self.business_name

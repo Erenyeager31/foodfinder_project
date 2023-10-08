@@ -1,6 +1,6 @@
 import json
 from django.shortcuts import render,HttpResponse
-from foodfinder_app.models import seller_details,user_detail,food_detail,cart,business_location
+from foodfinder_app.models import seller_details,user_detail,food_detail,cart,business_location,review,shop_review
 # Create your views here.
 #hi
 #hey whatsup ??
@@ -344,7 +344,63 @@ def search_filter(request):
 
 def listShop(request):
     sellers = seller_details.objects.values()
-    print(sellers)
+    # print(sellers)
+    food_list = []
     seller_list = list(sellers)
-    json_shop = json.dumps(seller_list)
-    return HttpResponse(json_shop,content_type='application/json')
+    for i in seller_list:
+        food = food_detail.objects.filter(username = i['username']).values()
+        # print(food)
+        food_list.extend(food)
+    
+    data = {
+        "seller":seller_list,
+        "foods":list(food_list)
+    }
+    # json_shop = json.dumps(seller_list)
+    return HttpResponse(json.dumps(data),content_type='application/json')
+
+def review_page(request):
+    food_list = food_detail.objects.values()
+    return render(request,'review_page.html',{'food_list':food_list})
+
+def submit_review(request):
+    # print(request.POST)
+    if request.method == 'POST':
+        req_data = request.POST
+        print(req_data)
+        try:
+            existing_review = review.objects.get(food_id=req_data['food_id'],username=req_data['username'])
+            existing_review.rating = req_data['rating']
+            existing_review.review = req_data['review']
+            existing_review.save()
+            return HttpResponse("Review Updated Succesfully")
+        except Exception as e:
+            print(e)
+            try:
+                new_review = review(food_id=req_data['food_id'],rating=req_data['rating'],review=req_data['review'],username=req_data['username'])
+                new_review.save()
+                return HttpResponse("Review added Succesfully")
+            except Exception as e:
+                return HttpResponse("Some error ocurred ! Please try again later")
+
+def shop_review(request):
+    # print(request.POST)
+    if request.method == 'POST':
+        req_data = request.POST
+        print(req_data)
+        try:
+            existing_review = shop_review.objects.get(business_name=req_data['business_name'],username=req_data['username'])
+            existing_review.rating = req_data['rating']
+            existing_review.review = req_data['review']
+            existing_review.save()
+            print("above")
+            return HttpResponse("Review Updated Succesfully")
+        except Exception as e:
+            print(e)
+            try:
+                new_review = shop_review(business_name=req_data['business_name'],rating=req_data['rating'],review=req_data['review'],username=req_data['username'])
+                new_review.save()
+                return HttpResponse("Review added Succesfully")
+            except Exception as e:
+                print(e)
+                return HttpResponse("Some error ocurred ! Please try again later")

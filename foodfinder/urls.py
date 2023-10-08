@@ -43,4 +43,7 @@ urlpatterns = [
     path('fetch_location',include('foodfinder_app.urls')),
     path('search_filter',include('foodfinder_app.urls')),
     path('listShop',include('foodfinder_app.urls')),
+    path('review_page',include('foodfinder_app.urls')),
+    path('submit_review',include('foodfinder_app.urls')),
+    path('shop_review',include('foodfinder_app.urls')),
 ]

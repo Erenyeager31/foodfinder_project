@@ -1,0 +1,480 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Home</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM"
+      crossorigin="anonymous"
+    />
+    <script src="https://ajax.aspnetCDN.com/ajax/jQuery/jQuery-3.3.1.min.js"></script>
+    <script src="https://ajax.aspnetCDN.com/ajax/jQuery/jQuery-3.3.1.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.min.js"></script>
+
+
+  </head>
+
+  <style>
+    body {
+      background-image: url('https://assets.gqindia.com/photos/625e4dacfcfaab5b0ecc5ee0/16:9/w_1280,c_limit/vada-pav%20(1).jpg');
+      opacity: 0.8;
+    }
+
+    .options{
+      width: 100%;
+      height: 10%;
+      margin-top: 100px;
+      display: flex;
+      justify-content: space-evenly;
+      align-items: center;
+      /* position: fixed;
+      top: 0;
+      left: 0; */
+      /* background-color: aqua; */
+      z-index: 1000;
+      padding-left: 10%;
+      padding-right: 10%;
+    }
+
+    #box_container{
+      margin-top: 2%;
+    }
+    
+    .options button{
+      border-color: aliceblue;
+    }
+  </style>
+
+  <body>
+    
+
+    <!-- navbar-dark bg-dark -->
+    <nav class="navbar navbar-dark bg-dark fixed-top opacity-75">
+      <div class="container-fluid">
+        <a class="navbar-brand opacity-100" href="#">Food Finder</a>
+        <ul class="nav justify-content-center">
+          <li class="nav-item">
+            <a class="nav-link active" aria-current="page" href="home">Home</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="aboutus">About Us</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="contactus">Contact Us</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="profile">Profile</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="showmaps">Maps</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="search_filter">Search</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" onclick="showcart()">Cart</a>
+          </li>
+        </ul>
+
+        <button
+          class="navbar-toggler"
+          type="button"
+          data-bs-toggle="offcanvas"
+          data-bs-target="#offcanvasDarkNavbar"
+          aria-controls="offcanvasDarkNavbar"
+          aria-label="Toggle navigation"
+        >
+          <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div
+          class="offcanvas offcanvas-end text-bg-dark"
+          tabindex="-1"
+          id="offcanvasDarkNavbar"
+          aria-labelledby="offcanvasDarkNavbarLabel"
+        >
+          <div class="offcanvas-header">
+            <h5 class="offcanvas-title" id="offcanvasDarkNavbarLabel">
+              FoodFinder
+            </h5>
+            <button
+              type="button"
+              class="btn-close btn-close-white"
+              data-bs-dismiss="offcanvas"
+              aria-label="Close"
+            ></button>
+          </div>
+          <div class="offcanvas-body">
+            <form class="d-flex mt-3" role="search">
+              {% csrf_token %}
+              <input
+                class="form-control me-2"
+                type="search"
+                placeholder="Search"
+                aria-label="Search"
+              />
+              <button class="btn btn-success" type="submit">Search</button>
+            </form>
+            <br />
+            <ul class="navbar-nav justify-content-end flex-grow-1 pe-3">
+              <li class="nav-item">
+                <a class="nav-link active" aria-current="page" href="home"
+                  >Home</a
+                >
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="aboutus">About Us</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="contactus">Contact Us</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="profile">Profile</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="profile">Profile</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="showmaps">Maps</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="search_filter">Search</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" onclick="showcart()">Cart</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="review_page"">Review Food</a>
+              </li>
+            </ul>
+            <br />
+            <a
+              class="btn btn-light rounded-pill px-3"
+              onclick="logout()"
+              type="button"
+              >Logout</a
+            >
+            <!-- <button type="button" class="btn btn-dark border border-primary ">Logout</button> -->
+          </div>
+        </div>
+      </div>
+    </nav>
+    
+    <div class="options">
+        <button type="button" class="btn btn-dark" onclick="list_food()">REVIEW FOOD</button>
+        <button type="button" class="btn btn-dark" onclick="list_shop()">REVIEW SHOP</button>
+      </div>
+  
+      <div class="album py-5 bg-body-primary" id="box_container">
+        <div class="container"> 
+          <div class="row row-cols-1 row-cols-sm-2 row-cols-md-4 g-3">
+            {% for i in food_list %}
+            <div class="col">
+              <div class="card shadow-sm">
+                <img
+                  style="width: 100%; height: 250px; object-fit: cover"
+                  src="{{ i.img_url }}"
+                  class="card-img-top"
+                  alt="vadapav"
+                />
+                <div class="card-body">
+                  <p class="card-text">{{ i.food_name }}</p>
+                  <div class="d-flex justify-content-between align-items-center">
+                    <div class="btn-group">
+                      <!-- Button trigger modal -->
+                    <!-- Button trigger modal -->
+                    <!-- Button trigger modal -->
+                    <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#staticBackdrop{{i.id}}">
+                      Review
+                    </button>
+                    </div>
+                    <!-- Modal -->
+                    <div class="modal fade" id="staticBackdrop{{i.id}}" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                      <div class="modal-dialog">
+                        <div class="modal-content">
+                          <div class="modal-header">
+                            <h5 class="modal-title" id="staticBackdropLabel">Food Review</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                          </div>
+                          <div class="modal-body">
+                            <form id="reviewForm">
+                              <div class="mb-3">
+                                <label for="foodName" class="form-label">Food Name</label>
+                                <input type="text" class="form-control" id="foodName" value={{i.food_name}}  readonly>
+                              </div>
+                              <div class="mb-3">
+                                <label for="rating" class="form-label">Rating</label>
+                                <select class="form-select" id="rating" required>
+                                  <option value="" disabled selected>Select rating</option>
+                                  <option value="5">5 stars</option>
+                                  <option value="4">4 stars</option>
+                                  <option value="3">3 stars</option>
+                                  <option value="2">2 stars</option>
+                                  <option value="1">1 star</option>
+                                </select>
+                              </div>
+                              <div class="mb-3">
+                                <label for="review" class="form-label">Review</label>
+                                <textarea class="form-control" id="review" rows="3" placeholder="Enter your review"></textarea>
+                              </div>
+                              <button type="button" class="btn btn-primary" id="submitButton" onclick="show_id('{{i.id}}')" data-parameter1="{{i.id}}" data-parameter2="{{i.username}}">Submit Review</button>
+                            </form>
+                          </div>
+                          <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            {% endfor %}
+          </div>
+  
+        </div>
+      </div>
+      
+
+    <!-- footer -->
+    <div class="container-1">
+      <footer class="py-3">
+        <ul class="nav justify-content-center border-bottom pb-3 mb-3">
+          <li class="nav-item">
+            <a href="#" class="nav-link px-2 text-body-secondary">Home</a>
+          </li>
+          <li class="nav-item">
+            <a href="#" class="nav-link px-2 text-body-secondary">Features</a>
+          </li>
+          <li class="nav-item">
+            <a href="#" class="nav-link px-2 text-body-secondary">Pricing</a>
+          </li>
+          <li class="nav-item">
+            <a href="#" class="nav-link px-2 text-body-secondary">FAQs</a>
+          </li>
+          <li class="nav-item">
+            <a href="#" class="nav-link px-2 text-body-secondary">About</a>
+          </li>
+        </ul>
+        <div class="social-icons d-flex justify-content-md-evenly">
+          <!-- Replace the links below with actual URLs to your social media profiles -->
+          <a href="#"><img src="/static/facebook.svg" alt="Facebook" /></a>
+          <a href="#"><img src="/static/twitter.svg" alt="Twitter" /></a>
+          <a href="#"><img src="/static/linkedin.svg" alt="LinkedIn" /></a>
+          <a href="#"><img src="/static/instagram.svg" alt="Instagram" /></a>
+        </div>
+        <br />
+        <p class="text-center text-body-secondary">
+          &copy; 2023 FoodFinder, Inc
+        </p>
+      </footer>
+    </div>
+
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"
+      integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.min.js"
+      integrity="sha384-fbbOQedDUMZZ5KreZpsbe1LCZPVmfTnH7ois6mU1QK+m14rQ1l2bGBq41eYeM/fS"
+      crossorigin="anonymous"
+    ></script>
+  </body>
+  <script>
+    function logout() {
+      sessionStorage.removeItem('username')
+      $.ajax({
+        type: 'POST',
+        url: '/logout',
+        data: {
+          csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val()
+        },
+        success(data) {
+          alert(data)
+          window.location.assign('home')
+        },
+        error(err) {
+          console.log(err)
+        }
+      })
+    }
+
+    function showcart(){
+      if(sessionStorage.getItem("role") == 'Customer'){
+        window.location.assign("showcart")
+      }
+      else{
+        alert("Please Login to view the Cart")
+      }
+    }
+
+    function list_food(){
+    window.location.reload()
+  }
+
+  async function list_shop(){
+    console.log("hi")
+    $.ajax({
+      type:'GET',
+      url :'/listShop',
+      data:{},
+      success(data){
+        // console.log("hi")
+        console.log(data)
+        // console.log("hi")
+        $('.container').empty();
+
+        $.each(data['seller'], function(index, item) {
+        console.log(item.business_name)
+        var cardBodyId = 'card-body-' + index;
+        var newItem =   '<div class="card mt-3">'+
+                          '<div id="'+ cardBodyId +'" class="card-body">'+
+                            '<ul class="list-group">'+
+                               '<li class="list-group-item">'+
+                                  '<strong>Business Name:</strong>' + item.business_name+ '<br>'+
+                                  '<strong>ZIP Code:</strong>'+ item.zip +'<br>'+
+                                  '<strong>Shop Address:</strong>'+ item.shop_add +'<br>'+
+                                '</li>'+
+                            '</ul>'+
+                            '<button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#staticBackdrop">Review</button>'+
+                      '<div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">'+
+                        '<div class="modal-dialog">'+
+                          '<div class="modal-content">'+
+                            '<div class="modal-header">'+
+                              '<h5 class="modal-title" id="staticBackdropLabel">Food Review</h5>'+
+                              '<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>'+
+                            '</div>'+
+                            '<div class="modal-body">'+
+                              '<form id="reviewForm">'+
+                                '<div class="mb-3">'+
+                                  '<label for="foodName" class="form-label">Shop/Business Name</label>'+
+                                  '<input type="text" class="form-control" id="business_name" value=' + item.business_name + 'readonly>'+
+                                '</div>'+
+                                '<div class="mb-3">'+
+                                  '<label for="rating" class="form-label">Rating</label>'+
+                                  '<select class="form-select" id="rating" required>'+
+                                    '<option value="" disabled selected>Select rating</option>'+
+                                    '<option value="5">5 stars</option>'+
+                                      '<option value="4">4 stars</option>'+
+                                    '<option value="3">3 stars</option>'+
+                                    '<option value="2">2 stars</option>'+
+                                    '<option value="1">1 star</option>'+
+                                  '</select>'+
+                                    '</div>'+
+                                    '<div class="mb-3">'+
+                                    '<label for="review" class="form-label">Review</label>'+
+                                    '<textarea class="form-control" id="review" rows="3" placeholder="Enter your review"></textarea>'+
+                                    '</div>'+
+                                    '<button type="button" class="btn btn-primary" onclick="shop_review()" id="submitButton2">Submit Review</button>'+
+                                     '</form>'+
+                                '</div>' +
+                                '<div class="modal-footer">'+
+                                  '<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>'+
+                                '</div>'+
+                              '</div>'+
+                            '<div>'+
+                            '</div>'+
+                          '</div>'+
+                        '</div>'
+      $('.container').append(newItem);
+    });
+                  
+      },
+      error(e){
+        console.log(e)
+      }
+    })
+  }
+
+  $('#myModal').on('shown.bs.modal', function () {
+  $('#myInput').trigger('focus')
+})
+
+  $(document).ready(function() {
+    $('body').on('click', '#submitButton', function(event) {
+      console.log("hi")
+      // Retrieve the parameter value from the button's data attribute
+      // event.preventDefault()
+      // console.log(this)
+      // alert("hi")
+      var modal = $(this).closest('.modal');
+        
+        // Retrieve the data attributes from the button within the specific modal
+      var id = $(modal).find('#submitButton').data('parameter1');
+      var shop_username = $(modal).find('#submitButton').data('parameter2');
+      var rating = $(modal).find('#rating').val();
+      var review = $(modal).find('#review').val();
+
+      // console.log(id)
+      
+      // modal.modal('hide');
+
+      $.ajax({
+        type:"POST",
+        url:"/submit_review",
+        data:{
+          // "business_name":business_name,
+          "food_id":id,
+          "rating":rating,
+          'review':review,
+          'username':sessionStorage.getItem('username'),
+          csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val()
+        },
+        success(data){
+          alert(data)
+          modal.modal('hide');
+//           document.addEventListener('hidden.bs.modal', function(event) {
+//     document.body.classList.add('modal-open');
+// });
+        window.location.reload()
+        },
+        error(err){
+
+        }
+      })
+
+    });
+  });  
+
+  function shop_review(){
+      console.log("hi")
+      
+      // Retrieve form values
+      var foodName = $('#foodName').val();
+      var rating = $('#rating').val();
+      var review = $('#review').val();
+      
+      $('#staticBackdrop').modal('hide');
+
+      $.ajax({
+        type:"POST",
+        url:"/shop_review",
+        data:{
+          "business_name":"abc",
+          "rating":rating,
+          'review':review,
+          'username':sessionStorage.getItem('username'),
+          csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val()
+        },
+        success(data){
+          alert(data)
+        },
+        error(err){
+
+        }
+      })
+
+    }
+  </script>
+</html>
