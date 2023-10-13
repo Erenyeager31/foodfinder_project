@@ -66,9 +66,10 @@ class review(models.Model):
         return self.username+" "+str(self.food_id)
     
 class shop_review(models.Model):
-    business_name = models.CharField(max_length=30)
+    # business_name = models.CharField(max_length=30)
+    business_id = models.IntegerField(default=0)
     rating = models.CharField(max_length=10)
     review = models.CharField(max_length=100)
     username = models.CharField(max_length=10)
     def __str__(self):
-        return self.username+" "+self.business_name
+        return self.username+" "+ str(self.business_id)

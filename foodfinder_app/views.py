@@ -383,13 +383,15 @@ def submit_review(request):
             except Exception as e:
                 return HttpResponse("Some error ocurred ! Please try again later")
 
-def shop_review(request):
+def shop_reviews(request):
     # print(request.POST)
     if request.method == 'POST':
         req_data = request.POST
-        print(req_data)
+        # print("shop review")
+        print(req_data['business_id'])
+        print(shop_review.__dict__)
         try:
-            existing_review = shop_review.objects.get(business_name=req_data['business_name'],username=req_data['username'])
+            existing_review = shop_review.objects.get(business_id=req_data['business_id'],username=req_data['username'])
             existing_review.rating = req_data['rating']
             existing_review.review = req_data['review']
             existing_review.save()
@@ -398,7 +400,7 @@ def shop_review(request):
         except Exception as e:
             print(e)
             try:
-                new_review = shop_review(business_name=req_data['business_name'],rating=req_data['rating'],review=req_data['review'],username=req_data['username'])
+                new_review = shop_review(business_id=req_data['business_id'],rating=req_data['rating'],review=req_data['review'],username=req_data['username'])
                 new_review.save()
                 return HttpResponse("Review added Succesfully")
             except Exception as e:

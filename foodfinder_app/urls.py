@@ -29,6 +29,6 @@ urlpatterns = [
     path('listShop',views.listShop,name='listShop'),
     path('review_page',views.review_page,name='review_page'),
     path('submit_review',views.submit_review,name='submit_review'),
-    path('shop_review',views.shop_review,name='shop_review'),
+    path('shop_review',views.shop_reviews,name='shop_review'),
 ]
 

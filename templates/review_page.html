@@ -342,13 +342,13 @@
                           '<div id="'+ cardBodyId +'" class="card-body">'+
                             '<ul class="list-group">'+
                                '<li class="list-group-item">'+
-                                  '<strong>Business Name:</strong>' + item.business_name+ '<br>'+
+                                  '<strong>Business Name:</strong>' + item.business_name + '<br>'+
                                   '<strong>ZIP Code:</strong>'+ item.zip +'<br>'+
                                   '<strong>Shop Address:</strong>'+ item.shop_add +'<br>'+
                                 '</li>'+
                             '</ul>'+
-                            '<button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#staticBackdrop">Review</button>'+
-                      '<div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">'+
+                            '<button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#staticBackdrop' + item.id + '">Review</button>'+
+                      '<div class="modal fade" id="staticBackdrop'+ item.id +'" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">'+
                         '<div class="modal-dialog">'+
                           '<div class="modal-content">'+
                             '<div class="modal-header">'+
@@ -359,7 +359,7 @@
                               '<form id="reviewForm">'+
                                 '<div class="mb-3">'+
                                   '<label for="foodName" class="form-label">Shop/Business Name</label>'+
-                                  '<input type="text" class="form-control" id="business_name" value=' + item.business_name + 'readonly>'+
+                                  '<input type="text" class="form-control" id="business_name" value="' + item.business_name + '" readonly>'+
                                 '</div>'+
                                 '<div class="mb-3">'+
                                   '<label for="rating" class="form-label">Rating</label>'+
@@ -376,7 +376,7 @@
                                     '<label for="review" class="form-label">Review</label>'+
                                     '<textarea class="form-control" id="review" rows="3" placeholder="Enter your review"></textarea>'+
                                     '</div>'+
-                                    '<button type="button" class="btn btn-primary" onclick="shop_review()" id="submitButton2">Submit Review</button>'+
+                                    '<button type="button" class="btn btn-primary" id="submitButton2" data-parameter1="'+ item.id +'" data-parameter2="'+ item.username +'">Submit Review</button>'+
                                      '</form>'+
                                 '</div>' +
                                 '<div class="modal-footer">'+
@@ -404,10 +404,6 @@
   $(document).ready(function() {
     $('body').on('click', '#submitButton', function(event) {
       console.log("hi")
-      // Retrieve the parameter value from the button's data attribute
-      // event.preventDefault()
-      // console.log(this)
-      // alert("hi")
       var modal = $(this).closest('.modal');
         
         // Retrieve the data attributes from the button within the specific modal
@@ -415,10 +411,6 @@
       var shop_username = $(modal).find('#submitButton').data('parameter2');
       var rating = $(modal).find('#rating').val();
       var review = $(modal).find('#review').val();
-
-      // console.log(id)
-      
-      // modal.modal('hide');
 
       $.ajax({
         type:"POST",
@@ -434,9 +426,6 @@
         success(data){
           alert(data)
           modal.modal('hide');
-//           document.addEventListener('hidden.bs.modal', function(event) {
-//     document.body.classList.add('modal-open');
-// });
         window.location.reload()
         },
         error(err){
@@ -447,21 +436,24 @@
     });
   });  
 
-  function shop_review(){
-      console.log("hi")
-      
-      // Retrieve form values
-      var foodName = $('#foodName').val();
-      var rating = $('#rating').val();
-      var review = $('#review').val();
-      
-      $('#staticBackdrop').modal('hide');
+  //! Reviewing the shops
+  $(document).ready(function() {
+    $('body').on('click', '#submitButton2', function(event) {
+      // alert("hi")
+      var modal = $(this).closest('.modal');
+        
+        // Retrieve the data attributes from the button within the specific modal
+      var id = $(modal).find('#submitButton2').data('parameter1');
+      // var shop_username = $(modal).find('#submitButton2').data('parameter2');
+      var rating = $(modal).find('#rating').val();
+      var review = $(modal).find('#review').val();
 
       $.ajax({
         type:"POST",
         url:"/shop_review",
         data:{
-          "business_name":"abc",
+          // "business_name":business_name,
+          "business_id":id,
           "rating":rating,
           'review':review,
           'username':sessionStorage.getItem('username'),
@@ -469,12 +461,46 @@
         },
         success(data){
           alert(data)
+          modal.modal('hide');
+        window.location.reload()
         },
         error(err){
 
         }
       })
 
-    }
+    });
+  });  
+
+
+  // function shop_review(){
+  //     console.log("hi")
+      
+  //     // Retrieve form values
+  //     var foodName = $('#foodName').val();
+  //     var rating = $('#rating').val();
+  //     var review = $('#review').val();
+      
+  //     $('#staticBackdrop').modal('hide');
+
+  //     $.ajax({
+  //       type:"POST",
+  //       url:"/shop_review",
+  //       data:{
+  //         "business_name":"abc",
+  //         "rating":rating,
+  //         'review':review,
+  //         'username':sessionStorage.getItem('username'),
+  //         csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val()
+  //       },
+  //       success(data){
+  //         alert(data)
+  //       },
+  //       error(err){
+
+  //       }
+  //     })
+
+  //   }
   </script>
 </html>
