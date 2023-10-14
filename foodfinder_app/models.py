@@ -17,6 +17,7 @@ class seller_details(models.Model):
     zip = models.CharField(max_length=6,default="")
     shop_add = models.CharField(max_length=100,default="")
     location = models.CharField(max_length=30,default="")
+    avg_ratings = models.IntegerField(default=0)
     def __str__(self):
         return self.name
     
@@ -41,6 +42,7 @@ class food_detail(models.Model):
     price = models.IntegerField()
     description = models.CharField(max_length=50)
     img_url = models.CharField(max_length=100)
+    avg_ratings = models.IntegerField(default=0)
     def __str__(self):
         return self.food_name
 

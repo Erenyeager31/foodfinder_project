@@ -11,7 +11,48 @@ username = "null"
 
 def index(request):
     food_list = food_detail.objects.values()
-    # print(food_list)
+    avg = []
+    for i in food_list:
+        avg.clear()
+        _id = i.get("id")
+        print(_id)
+        food_reviews = review.objects.filter(food_id = _id).values()
+        for j in food_reviews:
+            if j.get("rating") == "":
+                avg.append(0)
+            else:
+                avg.append(int(float(j.get("rating"))))
+        print(avg)
+        if(len(avg) == 0):
+            avg_val = 0
+        else:
+            avg_val = sum(avg) // len(avg)
+        food_item = food_detail.objects.get(id = i.get("id"))
+        food_item.avg_ratings = avg_val
+        food_item.save()
+
+    #! average ratings for the shops
+    seller_list = seller_details.objects.values()
+    avg = []
+    for i in seller_list:
+        avg.clear()
+        _id = i.get("id")
+        # print(_id)
+        shop_reviews = shop_review.objects.filter(business_id = _id).values()
+        for j in shop_reviews:
+            if j.get("rating") == "":
+                avg.append(0)
+            else:
+                avg.append(int(float(j.get("rating"))))
+        print(avg)
+        if(len(avg) == 0):
+            avg_val = 0
+        else:
+            avg_val = sum(avg) // len(avg)
+        shop_item = seller_details.objects.get(id = i.get("id"))
+        shop_item.avg_ratings = avg_val
+        shop_item.save()
+
     return render(request,'index.html',{'food_list':food_list})
 
 def create_act(request):
@@ -320,20 +361,24 @@ def fetch_location(request):
     b_location = business_location.objects.values()
     location = []
     business_name = []
-    print(b_location)
+    avg_rating = []
+
     for i in b_location:
         loc = i.get("location")
         array = loc.split(',')
         #!Obtaining the string, performing split and appending into the list
         location.append({'lat':float(array[0]),'lng':float(array[1])})
         business_name.append(i.get("business_name"))
+        shop_entity = seller_details.objects.get(business_name = i.get("business_name"))
+        avg_rating.append(shop_entity.avg_ratings)
     
     # print(location)
     # json_loc = json.dumps(location)
     # json_name = json.dumps(business_name)
     response_data = {
         'locations':location,
-        'name':business_name
+        'name':business_name,
+        'avg_ratings':avg_rating
     }
     json_resp = json.dumps(response_data)
     return HttpResponse(json_resp, content_type='application/json')

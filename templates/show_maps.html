@@ -154,12 +154,12 @@
         data:{},
         success(data){
           console.log(data)
-          initMap(data.locations,data.name)
+          initMap(data.locations,data.name,data.avg_ratings)
         }
       })
     }
 
-    async function initMap(locations,marker_label) {
+    async function initMap(locations,marker_label,avg_ratings) {
       const map =await new google.maps.Map(document.getElementById('map'), {
         zoom: 6,
         center: { lat: 19.07283, lng: 72.88261 }
@@ -170,48 +170,26 @@
         disableAutoPan: true
       })
 
-      // locations = data
-    //   console.log(data)
-    //   const locations = [
-    //   { lat: -31.56391, lng: 147.154312 },
-    //   { lat: -33.718234, lng: 150.363181 },
-    //   { lat: -33.727111, lng: 150.371124 },
-    //   { lat: -33.848588, lng: 151.209834 },
-    //   { lat: -33.851702, lng: 151.216968 },
-    //   { lat: -34.671264, lng: 150.863657 },
-    //   { lat: -35.304724, lng: 148.662905 },
-    //   { lat: -36.817685, lng: 175.699196 },
-    //   { lat: -36.828611, lng: 175.790222 },
-    //   { lat: -37.75, lng: 145.116667 },
-    //   { lat: -37.759859, lng: 145.128708 },
-    //   { lat: -37.765015, lng: 145.133858 },
-    //   { lat: -37.770104, lng: 145.143299 },
-    //   { lat: -37.7737, lng: 145.145187 },
-    //   { lat: -37.774785, lng: 145.137978 },
-    //   { lat: -37.819616, lng: 144.968119 },
-    //   { lat: -38.330766, lng: 144.695692 },
-    //   { lat: -39.927193, lng: 175.053218 },
-    //   { lat: -41.330162, lng: 174.865694 },
-    //   { lat: -42.734358, lng: 147.439506 },
-    //   { lat: -42.734358, lng: 147.501315 },
-    //   { lat: -42.735258, lng: 147.438 },
-    //   { lat: -43.999792, lng: 170.463352 },
-    // ]
-    // console.log(locations)
-
       // Add some markers to the map.
       const markers =await locations.map((position, i) => {
         // const label = String.fromCharCode(65 + (i % 26)) // A, B, C, ...
         const label = marker_label[i]
+        url = 'https://res.cloudinary.com/dxo9b7e2h/image/upload/v1697257896/maps_icon/flag_'+avg_ratings[i]+'.png'
+        // console.log(avg_ratings)
         const marker = new google.maps.Marker({
           position,
           label,
-          map
+          map,
+          icon: {
+            url: url,
+            scaledSize: new google.maps.Size(32, 32),
+
+        }
         })
 
         // Open info window when marker is clicked
         marker.addListener('click', () => {
-          infoWindow.setContent(position.lat + ', ' + position.lng)
+          infoWindow.setContent("Average Rating :"+avg_ratings[i])
           infoWindow.open(map, marker)
         })
 
