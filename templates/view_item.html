@@ -1,0 +1,557 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Check Out</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
+  </div>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm"
+    crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"
+    integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r"
+    crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.min.js"
+    integrity="sha384-Rx+T1VzGupg4BHQYs2gCW9It+akI2MM/mndMCy36UVfodzcJcF0GGLxZIzObiEfa"
+    crossorigin="anonymous"></script>
+    <script src="https://ajax.aspnetCDN.com/ajax/jQuery/jQuery-3.3.1.min.js"></script>
+
+  <style>
+    @import url('https://fonts.googleapis.com/css?family=Roboto');
+
+    /* * { box-sizing: border-box; } */
+
+    html,
+    body {
+      margin: 0;
+    }
+
+    body {
+      /* background: #CA136B; */
+      background: #e4d93b;
+      font-family: 'Roboto', sans-serif;
+    }
+
+    header {
+      display: flex;
+      justify-content: space-between;
+      padding: 20px;
+      margin-bottom: 20px;
+    }
+
+    header div {
+      width: 100px;
+      height: 40px;
+      overflow: visible;
+    }
+
+    .shadow {
+      box-shadow: 0px 0px 20px 5px rgba(0, 0, 0, 0.3), 0 0 0 0 rgba(0, 0, 0, 0.3);
+    }
+
+    #menu {
+      min-width: 50px;
+      width: 50px;
+      height: 50px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 10px;
+      background: #E22E8C;
+    }
+
+    #logo {
+      align-self: flex-end;
+    }
+
+    #logo img {
+      width: 100%;
+      height: auto;
+    }
+
+    #cart {
+      width: 150px;
+      min-width: 100px;
+      background: #E22E8C;
+      border-radius: 10px;
+      text-transform: uppercase;
+      color: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .content {
+      display: grid;
+      grid-template-rows: [a] 93px [b] 109px [c] auto [d];
+
+      grid-template-columns: [a] 45px [b] minmax(300px, 950px) [c] 50px [d] 350px [e];
+    }
+
+    .content h1 {
+      color: #fff;
+      text-transform: uppercase;
+      font-size: 32px;
+      text-align: center;
+      margin: 0;
+
+      grid-row: b;
+      grid-column: d;
+    }
+
+    label {
+      text-transform: uppercase;
+      font-size: 16px;
+      color: #336AC9;
+      font-weight: bold;
+    }
+
+    input {
+      color: #CA136B;
+      border: 1px solid rgb(226, 225, 232);
+      border-radius: 5px;
+      text-align: center;
+      padding: 5px 0 5px 12px;
+      width: 60px;
+      height: 25px;
+    }
+
+    #checkoutNav {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 100px;
+      height: 400px;
+      background: #336AC9;
+      border-top-right-radius: 10px;
+      border-bottom-right-radius: 10px;
+
+      grid-row: c;
+      z-index: 2;
+    }
+
+    #checkoutNav ul {
+      color: #D5D2DD;
+      list-style: none;
+      padding: 0;
+      text-align: center;
+      font-size: 18px;
+      text-transform: uppercase;
+
+      grid-row: b / -1;
+    }
+
+    #checkoutNav ul i.fa {
+      font-size: 25px;
+    }
+
+    .active {
+      color: #FBFBFB;
+    }
+
+    #product {
+      max-width: 1000px;
+      max-height: 752px;
+      border-radius: 10px;
+      overflow: hidden;
+
+      grid-row: a / -1;
+      grid-column: b / d;
+    }
+
+    #product img {
+      object-fit: cover;
+      display: block;
+      max-width: 100%;
+      height: 100%;
+    }
+
+    #checkoutCard {
+      max-width: 400px;
+      background: #FBFBFB;
+      border-radius: 10px;
+
+      grid-row: c;
+      grid-column: c / e;
+      align-self: start;
+    }
+
+    #details {
+      padding: 10px;
+      background: linear-gradient(#FBFBFB 40%, #D5D2DD 100%);
+      border-top-left-radius: 10px;
+      border-top-right-radius: 10px;
+    }
+
+    #details dl {
+      margin: 0;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      grid-template-rows: 60px auto;
+      justify-items: center;
+      align-items: center;
+      margin-bottom: 20px;
+    }
+
+    #details dt {
+      color: #D5D2DD;
+      text-transform: uppercase;
+      font-size: 18px;
+      grid-row: 1;
+    }
+
+    #details dd {
+      color: #336AC9;
+      margin: 0;
+    }
+
+    #checkoutCard ul {
+      list-style: none;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0;
+      font-size: 18px;
+    }
+
+    #checkoutCard ul li input {
+      width: 30px;
+      height: 30px;
+      margin-left: 70px;
+      color: #336AC9;
+    }
+
+    #thumbnail {
+      width: 175px;
+      height: auto;
+    }
+
+
+    .info {
+      padding-top: 1em;
+    }
+
+    form>* {
+      padding: 0 0.8em;
+      margin-bottom: 1.5em;
+    }
+
+    form> :last-child {
+      margin: 0;
+    }
+
+    #checkoutCard form #cards {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+    }
+
+    #checkoutCard form #cards ul {
+      margin: 0;
+      padding: 0;
+      width: 100%;
+    }
+
+    #cards i.fa {
+      font-size: 40px;
+      color: #D5D2DD;
+    }
+
+    #cards i.fa.fa-cc-visa {
+      color: #CA136B;
+    }
+
+    #cards label {}
+
+    #cardNumber {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      grid-gap: 10px;
+    }
+
+    #cardNumber label {
+      grid-column: 1 / -1;
+    }
+
+    #cardNumber input {
+      padding: 0;
+      /* 
+the following are required to fix what 
+seems to be buggy behaviour between inputs 
+and css grid in firefox. 
+The width and min-width are especially important.
+If the elements were spans instead of inputs this wouldn't be necessary.
+ */
+      width: auto;
+      height: auto;
+      min-width: 60px;
+      min-height: 35px;
+    }
+
+    #securityInfo {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      grid-gap: 10px;
+    }
+
+    #securityInfo input {
+      padding: 0;
+      width: auto;
+      height: auto;
+      min-width: 60px;
+      min-height: 35px;
+    }
+
+
+    #btnSubmit {
+      text-align: center;
+      width: 100%;
+      border: none;
+      height: 50px;
+      text-transform: uppercase;
+      border-top-left-radius: 0;
+      border-top-right-radius: 0;
+      border-bottom-left-radius: 10px;
+      border-bottom-right-radius: 10px;
+      background: #336AC9;
+      color: #FBFBFB;
+      font-size: 20px;
+    }
+
+    footer {
+      text-align: center;
+      padding: 10px;
+      color: #FBFBFB;
+    }
+
+    footer a {
+      color: #FBFBFB;
+      padding: 0 20px;
+      text-decoration: none;
+    }
+
+    footer a:hover {
+      color: #336AC9;
+    }
+
+    @media screen and (max-width: 746px) {
+      .content {
+        display: block;
+      }
+
+      .content h1 {
+        margin: 1em;
+      }
+
+      #checkoutNav {
+        width: auto;
+        height: auto;
+        margin: 0 0 1em 0;
+        border-radius: 0;
+        display: block;
+      }
+
+      #checkoutNav ul {
+        display: flex;
+        justify-content: space-around;
+        min-width: 50%;
+        margin: 0;
+      }
+
+      #checkoutCard {
+        margin: auto;
+      }
+
+      footer {
+        display: flex;
+        flex-direction: column;
+      }
+    }
+  </style>
+</head>
+
+<body >
+  <nav class="navbar navbar-dark bg-dark fixed-top opacity-75">
+    <div class="container-fluid">
+      <a class="navbar-brand opacity-100" href="#">FoodFinder</a>
+      <ul class="nav justify-content-center">
+        <li class="nav-item">
+          <a class="nav-link active " aria-current="page" href="#">Home</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#">About Us</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#">Contact Us</a>
+        </li>
+      </ul>
+
+      <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasDarkNavbar"
+        aria-controls="offcanvasDarkNavbar" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      <div class="offcanvas offcanvas-end text-bg-dark" tabindex="-1" id="offcanvasDarkNavbar"
+        aria-labelledby="offcanvasDarkNavbarLabel">
+        <div class="offcanvas-header">
+          <h5 class="offcanvas-title" id="offcanvasDarkNavbarLabel">FoodFinder</h5>
+          <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas"
+            aria-label="Close"></button>
+        </div>
+        <div class="offcanvas-body">
+          <form class="d-flex mt-3" role="search">
+            <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+            <button class="btn btn-success" type="submit">Search</button>
+          </form>
+          <br>
+          <ul class="navbar-nav justify-content-end flex-grow-1 pe-3">
+            <li class="nav-item">
+              <a class="nav-link active" aria-current="page" href="#">Home</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#">Profile</a>
+            </li>
+
+            <li class="nav-item">
+              <a class="nav-link" href="#">Fill and Edit Details</a>
+            </li>
+
+            <li class="nav-item">
+              <a class="nav-link" href="#">Tansaction History</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#">Track Order</a>
+            </li>
+
+
+            <li class="nav-item">
+              <a class="nav-link" href="#">About Us</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#">Contact Us</a>
+            </li>
+
+          </ul>
+          <br>
+          <button class="btn btn-light rounded-pill px-3" type="button">Logout</button>
+          <!-- <button type="button" class="btn btn-dark border border-primary ">Logout</button> -->
+        </div>
+      </div>
+
+    </div>
+  </nav>
+  <br><br><br>
+  
+<div class="container">
+  <section class="container">
+    {% for i in food_item %}
+    <section class="content">
+      <!-- <article id="checkoutNav" class="shadow">
+        <ul>
+          <li>
+            <p>01</p>
+            <i class="fa fa-truck" aria-hidden="true"></i>
+            <p>Shipping</p>
+          </li>
+          <li class="active">
+            <p>02</p>
+            <i class="fa fa-credit-card" aria-hidden="true"></i>
+            <p>Payment</p>
+          </li>
+          <li>
+            <p>03</p>
+            <i class="fa fa-envelope-o" aria-hidden="true"></i>
+            <p>Success</p>
+          </li>
+        </ul>
+      </article>https://thinsoldier.com/wip/nike-grid/images/lunar2_full.jpg -->
+      <article id="product" class="shadow"><img src="{{i.img_url}}"
+          alt="Lunar 2"></article>
+      <h1>{{i.food_name}}</h1>
+      <article id="checkoutCard" class="shadow">
+        <div id="details">
+          <dl class="">
+            <dt>Product</dt>
+            <dd> <img id="thumbnail" src="{{i.img_url}}"
+               ></dd>
+            <dt>Quantity</dt>
+            <dd> <input type="number" value="1" readonly> </dd>
+            <dt>Price</dt>
+            <dd> {{i.price}} Rs</dd>
+          </dl>
+        </div>
+        <div class="info">
+          <div class="container">
+          <h3>Description</h3>
+         {{i.description}}
+         <!-- <button type="button" class="btn btn-warning" onclick="checkout('{{ i.id }}')">Buy</button> -->
+         <button type="button" class="btn btn-success" onclick="addCart('{{ i.id }}');">Add to cart</button>
+        </div>
+        <br>
+        </div>
+      </article>
+    </section>
+    {% endfor %}
+  </section>
+</div>
+
+
+  <!-- footer -->
+  <div class="container">
+
+    <footer class="py-3 ">
+      <ul class="nav justify-content-center border-bottom pb-3 mb-3">
+        <li class="nav-item"><a href="#" class="nav-link px-2 text-body-secondary">Home</a></li>
+        <li class="nav-item"><a href="#" class="nav-link px-2 text-body-secondary">Features</a></li>
+        <li class="nav-item"><a href="#" class="nav-link px-2 text-body-secondary">Pricing</a></li>
+        <li class="nav-item"><a href="#" class="nav-link px-2 text-body-secondary">FAQs</a></li>
+        <li class="nav-item"><a href="#" class="nav-link px-2 text-body-secondary">About</a></li>
+      </ul>
+      <div class="social-icons d-flex justify-content-center">
+        <!-- Replace the links below with actual URLs to your social media profiles -->
+        <a href="#"><img src="facebook.svg" alt="Facebook"></a>
+        <a href="#"><img src="twitter.svg" alt="Twitter"></a>
+        <a href="#"><img src="linkedin.svg" alt="LinkedIn"></a>
+        <a href="#"><img src="instagram.svg" alt="Instagram"></a>
+      </div>
+      <br>
+      <p class="text-center text-body-secondary">&copy; 2023 FoodFinder, Inc</p>
+
+    </footer>
+</body>
+<script>
+  function addCart(id) {
+    // alert(id)
+    if (sessionStorage.getItem('role') == 'Customer') {
+      $.ajax({
+        type: 'GET',
+        url: '/AddtoCart',
+        data: {
+          username: sessionStorage.getItem('username'),
+          id: id
+        },
+        success(data) {
+          alert(data)
+        },
+        error(e) {
+          console.log(e)
+        }
+      })
+    }
+    else{
+      alert("Please login to use the cart")
+    }
+  }
+
+  function checkout(id){
+    if (sessionStorage.getItem('role') == 'Customer') {
+      window.location.assign(`/buyitem?id=${id}`)
+    } else {
+      alert('Please Login or signup to buy the Item')
+    }
+  }
+</script>
+</html>

@@ -357,7 +357,7 @@
     })
 
     async function success(position){
-      // alert("Inside")
+      alert("Inside")
       const coords = await position['coords']
       const latitude = await coords.latitude
       const longitude = await coords.longitude
@@ -385,7 +385,7 @@
       alert("Error occured")
     }
     function fetchlocation(){
-      // alert("Fetching your current location...")
+      alert("Fetching your current location...")  
       navigator.geolocation.getCurrentPosition(success,error)
     }
   </script>

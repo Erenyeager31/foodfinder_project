@@ -17,7 +17,7 @@ class seller_details(models.Model):
     zip = models.CharField(max_length=6,default="")
     shop_add = models.CharField(max_length=100,default="")
     location = models.CharField(max_length=30,default="")
-    avg_ratings = models.IntegerField(default=0)
+    avg_ratings = models.IntegerField(default=1)
     def __str__(self):
         return self.name
     
@@ -75,3 +75,21 @@ class shop_review(models.Model):
     username = models.CharField(max_length=10)
     def __str__(self):
         return self.username+" "+ str(self.business_id)
+    
+class order_history(models.Model):
+    username = models.CharField(max_length=10)
+    timestamp = models.DateTimeField(auto_now_add=True)
+    food_ids = models.CharField(max_length=100,default="")
+    total_price = models.IntegerField()
+    def __str__(self):
+        return self.username+" "+str(self.timestamp)
+    
+class order_list(models.Model):
+    s_username = models.CharField(max_length=10)
+    food_id = models.IntegerField()
+    username = models.CharField(max_length=10)
+    status = models.BooleanField(default=False)
+    def __str__(self):
+        return self.s_username+" "+self.username
+    
+

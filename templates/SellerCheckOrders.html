@@ -12,7 +12,7 @@
     </style>
 </head>
 
-<body style="background-image: url('fburger.jpg');">
+<body style="background-image: url('/static/fburger.jpg');">
     <nav class="navbar navbar-dark bg-dark fixed-top opacity-75">
         <div class="container-fluid">
             <a class="navbar-brand opacity-100" href="#">FoodFinder</a>
@@ -101,26 +101,28 @@
                 </tr>
             </thead>
             <tbody>
+                {% for i,j,k in order %}
                 <tr>
                     <th scope="row">1</th>
-                    <td>Vadapav
+                    <td>{{i}}
                         <p class="d-inline-flex gap-1">
                             <button class="btn btn-primary" type="button" data-bs-toggle="collapse"
-                                data-bs-target="#collapseExample1" aria-expanded="false"
-                                aria-controls="collapseExample1">
+                                data-bs-target="#{{k}}" aria-expanded="false"
+                                aria-controls="{{k}}">
                                 See Details
                             </button>
                         </p>
-                        <div class="collapse" id="collapseExample1">
+                        <div class="collapse" id="{{k}}">
                             <div class="card card-body text-black">
-                                <div >Item: vadapav</div>
-                                <div >Quantity: 4</div>
-                                <div >Divelery boy name: Bruno</div>
-                                <div >Divelery boy phone no: 32432535354</div>
-                                <div >
+                                <div >Item: {{i}}</div>
+                                <div >Quantity: 1</div>
+                                <div >Ordered By : {{j}}</div>
+                                <!-- <div >Divelery boy name: Bruno</div> -->
+                                <!-- <div >Divelery boy phone no: 32432535354</div> -->
+                                <!-- <div>
                                     <div class="row g-3 align-items-center">
                                         <div class="col-auto">
-                                            <label for="dcode" class="col-form-label ">Enter dilevery code:</label>
+                                            <label for="dcode" class="col-form -label ">Enter dilevery code:</label>
                                         </div>
                                         <div class="col-auto">
                                             <input type="password" id="dcode" class="form-control border border-black"
@@ -129,7 +131,7 @@
                                         <button type="button" class="btn btn-dark">Confirm</button>
                                         
                                     </div>
-                                </div>
+                                </div> -->
 
                             </div>
                         </div>
@@ -137,7 +139,8 @@
                     <td><button type="button" class="btn btn-success">Accept</button></td>
                     <td><button type="button" class="btn btn-danger">Reject</button></td>
                 </tr>
-                <tr>
+                {% endfor %}
+                <!-- <tr>
                     <th scope="row">2</th>
                     <td>Samosa
                         <p class="d-inline-flex gap-1">
@@ -171,7 +174,7 @@
                     </td>
                     <td><button type="button" class="btn btn-success">Accept</button></td>
                     <td><button type="button" class="btn btn-danger">Reject</button></td>
-                </tr>
+                </tr> -->
 
             </tbody>
         </table>

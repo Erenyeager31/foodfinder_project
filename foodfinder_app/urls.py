@@ -23,12 +23,16 @@ urlpatterns = [
     path('showmaps',views.showmaps,name='showmaps'),
     path('showcart',views.showcart,name='showcart'),
     path('delete_cart',views.delete_cart,name='delete_cart'),
-    path('checkout',views.checkout,name='checkout'),
+    path(r'view_item/',views.view_item,name='view_item'),
     path('fetch_location',views.fetch_location,name='fetch_location'),
     path('search_filter',views.search_filter,name='search_filter'),
     path('listShop',views.listShop,name='listShop'),
     path('review_page',views.review_page,name='review_page'),
     path('submit_review',views.submit_review,name='submit_review'),
     path('shop_review',views.shop_reviews,name='shop_review'),
+    path('checkout',views.checkout,name='checkout'),
+    path(r'buyitem/',views.buyitem,name='buyitem'),
+    path('predict',views.predict,name='predict'),
+    path('place_order',views.place_order,name='place_order'),
 ]
 

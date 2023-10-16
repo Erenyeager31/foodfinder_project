@@ -1,13 +1,23 @@
 import json
 from django.shortcuts import render,HttpResponse
-from foodfinder_app.models import seller_details,user_detail,food_detail,cart,business_location,review,shop_review
-# Create your views here.
-#hi
-#hey whatsup ??
-#Good morning
+from foodfinder_app.models import seller_details,user_detail,food_detail,cart,business_location,review,shop_review,order_history,order_list
 auth_customer = False
 auth_seller = False
 username = "null"
+
+import torch
+import torch.nn as nn
+from django.shortcuts import render
+# from .models import YourModel  # Import your Django model if applicable
+
+model_path = 'C:\\Users\\Dishant\\Documents\\GitHub\\foodfinder_project\\static\\sent_analysis.pth'
+loaded_model = torch.load(model_path, map_location=torch.device('cpu'))
+# loaded_model.eval()
+
+if isinstance(loaded_model, torch.nn.Module):
+    loaded_model.eval()
+else:
+    print("Error: The loaded object is not a PyTorch model.")
 
 def index(request):
     food_list = food_detail.objects.values()
@@ -32,6 +42,7 @@ def index(request):
         food_item.save()
 
     #! average ratings for the shops
+    print("shop reviews")
     seller_list = seller_details.objects.values()
     avg = []
     for i in seller_list:
@@ -39,6 +50,7 @@ def index(request):
         _id = i.get("id")
         # print(_id)
         shop_reviews = shop_review.objects.filter(business_id = _id).values()
+        # print(shop_reviews)
         for j in shop_reviews:
             if j.get("rating") == "":
                 avg.append(0)
@@ -49,6 +61,7 @@ def index(request):
             avg_val = 0
         else:
             avg_val = sum(avg) // len(avg)
+        print(avg_val)
         shop_item = seller_details.objects.get(id = i.get("id"))
         shop_item.avg_ratings = avg_val
         shop_item.save()
@@ -254,8 +267,30 @@ def food_upload_form(request):
     
     return HttpResponse("Testing..")
 
+#!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+#!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+#!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+#!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+#!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+#!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+#!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+#!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 def check_orders(request):
-    return render(request,'SellerCheckOrders.html')
+    global username
+    o_list = order_list.objects.filter(s_username = username).values()
+    food_id = []
+    Username = []
+    food_name = []
+    for i in o_list:
+        food_id.append(i.get("food_id"))
+        Username.append(i.get("username"))
+    food_list = food_detail.objects.filter(id__in = food_id).values()
+    for food in food_list:
+        food_name.append(food.get("food_name"))
+    print(food_id,Username,food_name)
+    order = zip(food_name,Username,food_id)
+    return render(request,'SellerCheckOrders.html',{'order':order})
+    # {'order':{'food_name':food_name,'username':Username,'food_id':food_id}}
 
 def upload_recipe(request):
     return render(request,'');
@@ -354,8 +389,10 @@ def delete_cart(request):
         }
     ))
 
-def checkout(request):
-    return render(request,"checkout.html")
+def view_item(request):
+    id = request.GET
+    food_item = food_detail.objects.filter(id = id['id']).values()
+    return render(request,"view_item.html",{"food_item":food_item})
 
 def fetch_location(request):
     b_location = business_location.objects.values()
@@ -451,3 +488,63 @@ def shop_reviews(request):
             except Exception as e:
                 print(e)
                 return HttpResponse("Some error ocurred ! Please try again later")
+
+def checkout(request):
+    global username
+    cart_values = cart.objects.filter(username=username).values()
+    # print(cart_values)
+    food_id = []
+    for i in cart_values:
+        food_id.append(i.get("food_id"))
+    food_list = food_detail.objects.filter(id__in = food_id).values()
+    print(food_list)
+    food_count = food_list.count()
+    total_price = 0
+    for i in food_list:
+        total_price = total_price + i.get("price")
+    
+    # print(price_list)
+    # total_price = sum(price_list)
+    return render(request,"checkout.html",{'cart_values':{'food_list':food_list,'count':food_count,'price':total_price}})
+    # return render(request,"checkout.html")
+
+def buyitem(request):
+    data = request.GET
+    food_item = food_detail.objects.filter(id = data['id']).values()
+    print(food_item[0].get('price'))
+    return render(request,"checkout.html",{'cart_values':{'food_list':food_item,'count':1,'price':"price"}})
+
+def predict(request):
+    with torch.no_grad():
+        output = loaded_model(123,"Dishant",4,"Tasty Food")
+        print(output)
+
+def place_order(request):
+    # order_hist = order_history()
+    Username = request.GET.get("username")
+    cart_values = cart.objects.filter(username=Username).values()
+    food_id = []
+    for i in cart_values:
+        food_id.append(i.get("food_id"))
+    
+    #! Saving into order list
+    for id in food_id:
+        seller = food_detail.objects.get(id = id)
+        new_order = order_list(s_username = seller.username,food_id=id,username=Username,status=False)
+        new_order.save()
+
+    food_list = food_detail.objects.filter(id__in = food_id).values()
+    # food_count = food_list.count()
+    total_price = 0
+    for i in food_list:
+        total_price = total_price + i.get("price")
+    food_id = str(food_id)
+    print(food_id)
+    print(total_price)
+    order_his = order_history(username=Username,food_ids=food_id,total_price=total_price)
+    order_his.save()    
+    return HttpResponse("Order Placed Successfully")
+
+
+def fetch_order(request):
+    return HttpResponse("hi")
