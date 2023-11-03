@@ -19,7 +19,7 @@ class seller_details(models.Model):
     location = models.CharField(max_length=30,default="")
     avg_ratings = models.IntegerField(default=1)
     def __str__(self):
-        return self.name
+        return self.name + str(self.id) + "" + self.business_name
     
 class user_detail(models.Model):
     name = models.CharField(max_length=30)
@@ -33,7 +33,7 @@ class user_detail(models.Model):
     zip = models.CharField(max_length=15,default='')
     address = models.CharField(max_length=100,default='')
     def __str__(self):
-        return self.name
+        return self.name + str(self.id)
     
 class food_detail(models.Model):
     username = models.CharField(max_length=10)
@@ -44,7 +44,7 @@ class food_detail(models.Model):
     img_url = models.CharField(max_length=100)
     avg_ratings = models.IntegerField(default=0)
     def __str__(self):
-        return self.food_name
+        return self.food_name + str(self.id)
 
 class cart(models.Model):
     username = models.CharField(max_length=10)
@@ -57,7 +57,7 @@ class business_location(models.Model):
     business_name = models.CharField(max_length=20,default="")
     location = models.CharField(max_length=30,default="")
     def __str__(self):
-        return self.business_name
+        return self.business_name + self.username
 
 class review(models.Model):
     food_id = models.IntegerField()

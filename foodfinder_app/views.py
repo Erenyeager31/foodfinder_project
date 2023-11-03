@@ -129,6 +129,12 @@ def login_processing(request):
             allusers = seller_details.objects.values()
             user = user_detail.objects.filter(username=username).values()
             # print(user[0].get("password"))
+            if user.count() == 0:
+                data = {
+                        "success":False,
+                        "message":"Username not found",
+                        }
+                return HttpResponse(json.dumps(data))
             if user[0].get("password") == password:
                 auth_seller = False
                 auth_customer = True
@@ -148,6 +154,12 @@ def login_processing(request):
             allusers = seller_details.objects.values()
             seller = seller_details.objects.filter(username=username).values()
             # print(seller[0].get("password"))
+            if seller.count() == 0:
+                data = {
+                        "success":False,
+                        "message":"Username not found",
+                        }
+                return HttpResponse(json.dumps(data))
             if seller[0].get("password") == password:
                 auth_seller = True
                 auth_customer = False
@@ -287,6 +299,7 @@ def check_orders(request):
     food_list = food_detail.objects.filter(id__in = food_id).values()
     for food in food_list:
         food_name.append(food.get("food_name"))
+        
     print(food_id,Username,food_name)
     order = zip(food_name,Username,food_id)
     return render(request,'SellerCheckOrders.html',{'order':order})
@@ -335,10 +348,55 @@ def save_location(request):
     return HttpResponse(json.dumps(data))
 
 def showmaps(request):
-    data = {
-        "message":"Debugging in process"
-    }
-    return render(request,"show_maps.html",{'data':data})
+    # data = {
+    #     "message":"Debugging in process"
+    # }
+    food_list = food_detail.objects.values()
+    avg = []
+    for i in food_list:
+        avg.clear()
+        _id = i.get("id")
+        print(_id)
+        food_reviews = review.objects.filter(food_id = _id).values()
+        for j in food_reviews:
+            if j.get("rating") == "":
+                avg.append(0)
+            else:
+                avg.append(int(float(j.get("rating"))))
+        print(avg)
+        if(len(avg) == 0):
+            avg_val = 0
+        else:
+            avg_val = sum(avg) // len(avg)
+        food_item = food_detail.objects.get(id = i.get("id"))
+        food_item.avg_ratings = avg_val
+        food_item.save()
+
+    #! average ratings for the shops
+    print("shop reviews")
+    seller_list = seller_details.objects.values()
+    avg = []
+    for i in seller_list:
+        avg.clear()
+        _id = i.get("id")
+        # print(_id)
+        shop_reviews = shop_review.objects.filter(business_id = _id).values()
+        # print(shop_reviews)
+        for j in shop_reviews:
+            if j.get("rating") == "":
+                avg.append(0)
+            else:
+                avg.append(int(float(j.get("rating"))))
+        print(avg)
+        if(len(avg) == 0):
+            avg_val = 0
+        else:
+            avg_val = sum(avg) // len(avg)
+        print(avg_val)
+        shop_item = seller_details.objects.get(id = i.get("id"))
+        shop_item.avg_ratings = avg_val
+        shop_item.save()
+    return render(request,"show_maps.html",{'food_list':food_list})
 
 def showcart(request):
     global username

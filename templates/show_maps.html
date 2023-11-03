@@ -49,6 +49,23 @@
       width: 90%;
       aspect-ratio: 2/1;
     }
+
+    .legend {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      background-color: white;
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    }
+
+    .legend-title {
+      font-weight: bold;
+      margin-bottom: 10px;
+    }
+
   </style>
 
   <body>
@@ -144,6 +161,8 @@
     </nav>
 
     <div id="map"></div>
+    <div id="legend"></div>
+
   </body>
   <script>
     
@@ -174,7 +193,12 @@
       const markers =await locations.map((position, i) => {
         // const label = String.fromCharCode(65 + (i % 26)) // A, B, C, ...
         const label = marker_label[i]
-        url = 'https://res.cloudinary.com/dxo9b7e2h/image/upload/v1697257896/maps_icon/flag_'+avg_ratings[i]+'.png'
+        if(avg_ratings[i] == 0){
+          url = 'https://res.cloudinary.com/dxo9b7e2h/image/upload/v1697257896/maps_icon/flag_1.png'
+        }else{
+          url = 'https://res.cloudinary.com/dxo9b7e2h/image/upload/v1697257896/maps_icon/flag_'+avg_ratings[i]+'.png'  
+        }
+        // url = 'https://res.cloudinary.com/dxo9b7e2h/image/upload/v1697257896/maps_icon/flag_'+avg_ratings[i]+'.png'
         // console.log(avg_ratings)
         const marker = new google.maps.Marker({
           position,
@@ -201,8 +225,47 @@
         imagePath:
           'https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/m'
       })
+
+      updateLegend()
     }
 
     window.addEventListener('load', fetch_call);
+
+    // Add this function to create the legend and update its content.
+function updateLegend() {
+  // const legend = document.getElementById('legend');
+  const legendContent = [];
+
+  // Define legend items with corresponding marker URLs and labels.
+  const legendItems = [
+    { url: 'https://res.cloudinary.com/dxo9b7e2h/image/upload/v1697257896/maps_icon/flag_1.png', label: 'Average Rating --> 1' },
+    { url: 'https://res.cloudinary.com/dxo9b7e2h/image/upload/v1697257896/maps_icon/flag_2.png', label: 'Average Rating --> 2' },
+    { url: 'https://res.cloudinary.com/dxo9b7e2h/image/upload/v1697257896/maps_icon/flag_3.png', label: 'Average Rating --> 3' },
+    { url: 'https://res.cloudinary.com/dxo9b7e2h/image/upload/v1697257896/maps_icon/flag_4.png', label: 'Average Rating --> 4' },
+    { url: 'https://res.cloudinary.com/dxo9b7e2h/image/upload/v1697257896/maps_icon/flag_5.png', label: 'Average Rating --> 5' },
+    // Add more legend items as needed
+  ];
+
+  // Generate legend content based on legend items.
+  const legend = document.createElement('div');
+  legend.className = 'legend';
+
+  const titleDiv = document.createElement('div');
+  titleDiv.className = 'legend-title';
+  titleDiv.innerHTML = 'Average Ratings Indicated by the markers'; // Replace with your desired legend title
+  legend.appendChild(titleDiv);
+
+  // Generate legend content based on legend items.
+  legendItems.forEach((item) => {
+    const div = document.createElement('div');
+    div.innerHTML = `<img src="${item.url}" alt="Marker Icon" style="width: 24px; height: 24px;"> ${item.label}`;
+    legend.appendChild(div);
+  });
+
+  // Get the map's div element and append the legend container to it.
+  const mapDiv = document.getElementById('map'); // Assuming your map div has an id of 'map'
+  mapDiv.appendChild(legend);
+}
+
   </script>
 </html>

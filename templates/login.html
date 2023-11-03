@@ -181,6 +181,7 @@
               const login_status = JSON.parse(data)
               if (login_status.success == true) {
                 sessionStorage.setItem('username', username.value)
+                sessionStorage.setItem('isloggedin', true)
                 sessionStorage.setItem('role', user)
                 alert(login_status.message)
                 setTimeout(() => {
