@@ -48,6 +48,6 @@ urlpatterns = [
     path('shop_review',include('foodfinder_app.urls')),
     path('checkout',include('foodfinder_app.urls')),
     path(r'buyitem/',include('foodfinder_app.urls')),
-    path('predict',include('foodfinder_app.urls')),
+    # path('predict',include('foodfinder_app.urls')),
     path('place_order',include('foodfinder_app.urls')),
 ]

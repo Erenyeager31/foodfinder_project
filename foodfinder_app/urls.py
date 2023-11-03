@@ -32,7 +32,7 @@ urlpatterns = [
     path('shop_review',views.shop_reviews,name='shop_review'),
     path('checkout',views.checkout,name='checkout'),
     path(r'buyitem/',views.buyitem,name='buyitem'),
-    path('predict',views.predict,name='predict'),
+    # path('predict',views.predict,name='predict'),
     path('place_order',views.place_order,name='place_order'),
 ]
 

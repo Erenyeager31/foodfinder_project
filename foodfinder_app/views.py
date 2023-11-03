@@ -5,19 +5,19 @@ auth_customer = False
 auth_seller = False
 username = "null"
 
-import torch
-import torch.nn as nn
-from django.shortcuts import render
-# from .models import YourModel  # Import your Django model if applicable
+# import torch
+# import torch.nn as nn
+# from django.shortcuts import render
+# # from .models import YourModel  # Import your Django model if applicable
 
-model_path = 'C:\\Users\\Dishant\\Documents\\GitHub\\foodfinder_project\\static\\sent_analysis.pth'
-loaded_model = torch.load(model_path, map_location=torch.device('cpu'))
-# loaded_model.eval()
+# model_path = 'C:\\Users\\Dishant\\Documents\\GitHub\\foodfinder_project\\static\\sent_analysis.pth'
+# loaded_model = torch.load(model_path, map_location=torch.device('cpu'))
+# # loaded_model.eval()
 
-if isinstance(loaded_model, torch.nn.Module):
-    loaded_model.eval()
-else:
-    print("Error: The loaded object is not a PyTorch model.")
+# if isinstance(loaded_model, torch.nn.Module):
+#     loaded_model.eval()
+# else:
+#     print("Error: The loaded object is not a PyTorch model.")
 
 def index(request):
     food_list = food_detail.objects.values()
@@ -572,10 +572,10 @@ def buyitem(request):
     print(food_item[0].get('price'))
     return render(request,"checkout.html",{'cart_values':{'food_list':food_item,'count':1,'price':"price"}})
 
-def predict(request):
-    with torch.no_grad():
-        output = loaded_model(123,"Dishant",4,"Tasty Food")
-        print(output)
+# def predict(request):
+#     with torch.no_grad():
+#         output = loaded_model(123,"Dishant",4,"Tasty Food")
+#         print(output)
 
 def place_order(request):
     # order_hist = order_history()
